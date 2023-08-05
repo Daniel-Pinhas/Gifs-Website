@@ -23,17 +23,17 @@ jobs:
 
     - name: Build and Push Flask-1 Image
       run: |
-        cd Flask-Project && python3 manageVersion.py
+        cd App/Flask-Project && python3 manageVersion.py
         echo 'Build and Push Flask-1 Image Stage Completed'
 
     - name: Build and Push Flask-2 Image
       run: |
-        cd Flask-Project2 && python3 manageVersion.py
+        cd App/Flask-Project2 && python3 manageVersion.py
         echo 'Build and Push Flask-2 Image Stage Completed'
 
     - name: Build and Push Flask-3 Image
       run: |
-        cd Flask-Project3 && python3 manageVersion.py
+        cd App/Flask-Project3 && python3 manageVersion.py
         echo 'Build and Push Flask-3 Image Stage Completed'
 
     - name: Deploy to Testing Env GCP
