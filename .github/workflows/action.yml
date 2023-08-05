@@ -1,0 +1,77 @@
+name: Gifs-Website
+
+on:
+  pull_request:
+    branches: 
+      - main
+  workflow_dispatch:
+
+jobs:
+  your_job_name:
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: /Users/daniel/Documents/DevOps/Gifs-Website
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Updating Changes
+      run: |
+        git pull
+
+
+    - name: Build and Push Flask-1 Image
+      run: |
+        cd Flask-Project && python3 manageVersion.py
+        echo 'Build and Push Flask-1 Image Stage Completed'
+
+    - name: Build and Push Flask-2 Image
+      run: |
+        cd Flask-Project2 && python3 manageVersion.py
+        echo 'Build and Push Flask-2 Image Stage Completed'
+
+    - name: Build and Push Flask-3 Image
+      run: |
+        cd Flask-Project3 && python3 manageVersion.py
+        echo 'Build and Push Flask-3 Image Stage Completed'
+
+    - name: Deploy to Testing Env GCP
+      run: |
+        cd DevOps-Projects/Pipeline-Terraform/flask-charts-prod/  
+        kubectl config use-context gke_lofty-dynamics-393510_us-central1-a_gifs-website-cluster
+        bash changeTagflask.sh
+        kubectl apply -f /var/lib/jenkins/.ssh/rds.yml
+        kubectl apply -f service-html.yml
+        kubectl apply -f flask-prod.yml
+        sleep 60
+        bash updateHTML.sh
+        kubectl apply -f httpd-deploy-prod.yml
+        echo 'Deploy Application into Rancher Desktop Completed'
+
+    - name: Testing Test-Server
+      run: |
+        cd DevOps-Projects/Pipeline-Terraform/tests/
+        bash test.sh
+        echo Testing Test-Server Stage Completed
+
+    - name: Deploy to Production Env GCP Cluster
+      run: |
+        cd DevOps-Projects/Pipeline-Terraform/flask-charts-prod/
+        kubectl config use-context gke_lofty-dynamics-393510_us-central1-a_gifs-website-cluster
+        bash changeTagflask.sh
+        kubectl apply -f /var/lib/jenkins/.ssh/rds.yml
+        kubectl apply -f service-html.yml
+        kubectl apply -f flask-prod.yml
+        sleep 60
+        bash updateHTML.sh
+        kubectl apply -f httpd-deploy-prod.yml
+        echo 'Deploy Application into Production GCP Cluster Completed'
+
+    - name: Testing Prod-Server
+      run: |
+        cd DevOps-Projects/Pipeline-Terraform/tests/
+        bash ingressIP.sh
+        bash prod.sh
+        echo 'Testing Prod-Server Stage Completed'
+
