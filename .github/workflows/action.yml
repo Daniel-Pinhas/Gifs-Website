@@ -8,32 +8,30 @@ on:
 
 jobs:
   your_job_name:
-    runs-on: self-hosted
-    defaults:
-      run:
-        working-directory: /Users/daniel/Documents/DevOps/Gifs-Website;
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
 
     - name: Updating Changes
       run: >
-        git pull;
+        cd ~ && sudo rm -rf Gifs-Website || true
+        cd ~ && git clone https://github.com/Daniel-Pinhas/Gifs-Website.git;
 
 
     - name: Build and Push Flask-1 Image
       run: >
-        cd App/Flask-Project && python3 manageVersion.py;
+        cd ~/Gifs-Website/App/Flask-Project && python3 manageVersion.py;
         echo 'Build and Push Flask-1 Image Stage Completed';
 
     - name: Build and Push Flask-2 Image
       run: >
-        cd App/Flask-Project2 && python3 manageVersion.py;
+        cd ~/Gifs-Website/App/Flask-Project2 && python3 manageVersion.py;
         echo 'Build and Push Flask-2 Image Stage Completed';
 
     - name: Build and Push Flask-3 Image
       run: >
-        cd App/Flask-Project3 && python3 manageVersion.py;
+        cd ~/Gifs-Website/App/Flask-Project3 && python3 manageVersion.py;
         echo 'Build and Push Flask-3 Image Stage Completed';
 
     - name: Deploy to Testing Env GCP
