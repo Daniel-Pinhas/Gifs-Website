@@ -13,6 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Dependncies
+      run: >
+        pip3 install docker
+
     - name: Updating Changes
       run: >
         cd ~ && sudo rm -rf Gifs-Website || true
