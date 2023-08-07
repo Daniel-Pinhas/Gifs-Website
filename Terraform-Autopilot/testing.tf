@@ -1,6 +1,7 @@
 provider "google" {
   project = "lofty-dynamics-393510"
   region  = "us-central1"
+  credentials = ""
 }
 
 resource "google_compute_network" "vpc" {
