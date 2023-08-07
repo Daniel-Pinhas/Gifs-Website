@@ -1,8 +1,7 @@
 provider "google" {
-  project = "lofty-dynamics-393510"
-  region  = "us-central1"
-  credentials = "/Users/daniel/Documents/DevOps/tkn/lofty-dynamics-393510-2b63cc077c5f.json"
-}
+  project     = "lofty-dynamics-393510"
+  region      = "us-central1"
+  credentials = "${GCP_CREDENTIAL}"
 
 resource "google_compute_network" "vpc" {
   name                    = local.network_name
@@ -27,6 +26,7 @@ resource "google_container_cluster" "primary" {
   network          = google_compute_network.vpc.id
   subnetwork       = google_compute_subnetwork.subnet.id
   enable_autopilot = true
+ }
 }  
   
 
