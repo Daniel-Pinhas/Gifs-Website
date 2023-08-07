@@ -39,8 +39,8 @@ resource "google_container_cluster" "primary" {
       auto_repair  = true
       auto_upgrade = true
     }
-    config {
-      machine_type = "e2-micro"
-    }
+    
+    machine_type = "e2-micro"
+    
   }
 }
