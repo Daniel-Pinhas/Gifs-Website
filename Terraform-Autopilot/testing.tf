@@ -26,21 +26,6 @@ resource "google_container_cluster" "primary" {
   network          = google_compute_network.vpc.id
   subnetwork       = google_compute_subnetwork.subnet.id
   enable_autopilot = true
+}  
+  
 
-
-  node_pool {
-    name           = "default-pool"
-    initial_node_count = 1
-    autoscaling {
-      min_node_count = 1
-      max_node_count = 3
-    }
-    management {
-      auto_repair  = true
-      auto_upgrade = true
-    }
-
-    machine_type = "e2-micro"
-    
-  }
-}
