@@ -1,7 +1,7 @@
 provider "google" {
   project = "lofty-dynamics-393510"
   region  = "us-central1"
-  credentials = ""
+  credentials = "/Users/daniel/Documents/DevOps/tkn/lofty-dynamics-393510-2b63cc077c5f.json"
 }
 
 resource "google_compute_network" "vpc" {
