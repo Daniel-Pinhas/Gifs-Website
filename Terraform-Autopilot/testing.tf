@@ -27,6 +27,11 @@ resource "google_container_cluster" "primary" {
   subnetwork       = google_compute_subnetwork.subnet.id
   enable_autopilot = true
  }
+
+resource "google_compute_firewall" "gifs_website_firewall" {
+  name    = "gifs-website"
+  network = data.google_compute_firewall.gifs_website_firewall.network
+}
   
   
 
