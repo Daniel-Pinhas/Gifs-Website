@@ -13,6 +13,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Generate cred.json
+      uses: frdrwrt/write-to-file@v1.3
+      with:
+        filepath: Gifs-Website/Terraform-Autopilot/cred.json
+        content: ${{secrets.GCP_CREDENTIAL}}
+        mode: 744
+
     - name: Dependncies
       run: >
         pip3 install docker
