@@ -13,12 +13,12 @@ resource "google_container_cluster" "primary" {
 
 import {
   to = google_compute_network.vpc
-  id = "projects/lofty-dynamics-393510/global/networks/lofty-dynamics-393510-vpc"
+  id = "projects/lofty-dynamics-393510/global/networks/gifs-website-test-vpc"
 }
 
 import {
   to = google_compute_subnetwork.subnet
-  id = "projects/lofty-dynamics-393510/regions/us-central1/subnetworks/lofty-dynamics-393510-subnet"
+  id = "projects/lofty-dynamics-393510/regions/us-central1/subnetworks/gifs-website-test-subnet"
 }
 
 provider "google" {
