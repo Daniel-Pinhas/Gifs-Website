@@ -1,23 +1,22 @@
 import docker
 import subprocess
+import json
 
 client = docker.from_env()
 
-images = client.images.list()
+# Fetch available versions using curl and jq
+response = subprocess.run(["curl", "-s", "https://registry.hub.docker.com/v2/repositories/danielpinhas/flask3-k8s/tags/"], stdout=subprocess.PIPE)
+response_json = response.stdout.decode("utf-8")
+available_versions = [tag["name"] for tag in json.loads(response_json)["results"]]
 
-existing_versions = [float(image.tags[0].split(":")[1]) for image in images if image.tags and image.tags[0].startswith("danielpinhas/flask3-k8s:")]
-
-if existing_versions:
-    latest_version = max(existing_versions) 
-    next_version = latest_version + 0.1 
-    # Delete the previous version image
-    previous_version = latest_version
-    previous_image_name = f"danielpinhas/flask3-k8s:{previous_version}"
-    client.images.remove(image=previous_image_name, force=True)
-    print(f"Successfully deleted image: {previous_image_name}")
+if available_versions:
+    # Filter versions based on the repository name and extract the version part
+    existing_versions = [float(version) for version in available_versions if version.startswith("1.")]
+    latest_version = max(existing_versions)
+    next_version = latest_version + 0.1
 else:
     next_version = 1.0
-    
+
 # Format the version number to one decimal place
 next_version = f"{next_version:.1f}"
 image_name = f"danielpinhas/flask3-k8s:{next_version}"
@@ -40,8 +39,8 @@ client.images.push(repository="danielpinhas/flask3-k8s", tag="latest")
 print(f"Successfully pushed latest image: {latest_image_name}")
 
 # Remove the intermediate images without a tag
+images = client.images.list()
 intermediate_images = [image for image in images if not image.tags]
 for image in intermediate_images:
     client.images.remove(image=image.id, force=True)
     print(f"Successfully deleted intermediate image: {image.id}")
-
