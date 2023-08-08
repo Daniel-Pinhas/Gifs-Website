@@ -40,3 +40,5 @@ resource "google_compute_firewall" "gifs_website_firewall" {
     ports    = ["80", "81", "82", "5000", "3306"]
   }
 }
+
+
