@@ -5,7 +5,6 @@ provider "google" {
   credentials = "/Users/daniel/Documents/DevOps/tkn/lofty-dynamics-393510-2b63cc077c5f.json"
 }
 
-
 terraform {
     backend "gcs" {
         bucket = "gifs-website-bucket"

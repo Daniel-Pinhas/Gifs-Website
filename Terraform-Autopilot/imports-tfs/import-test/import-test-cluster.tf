@@ -29,8 +29,8 @@ provider "google" {
 
 
 locals {
-  network_name = "lofty-dynamics-393510-vpc"
-  subnet_name  = "lofty-dynamics-393510-subnet"
+  network_name = "gifs-website-test-vpc"
+  subnet_name  = "gifs-website-test-subnet"
 }
 
 resource "google_compute_network" "vpc" {
@@ -45,14 +45,7 @@ resource "google_compute_subnetwork" "subnet" {
   ip_cidr_range = "10.10.0.0/24"
 }
 
-resource "google_compute_firewall" "gifs_website_firewall" {
-  name          = "gifs-website"
-  network       = google_compute_network.vpc.self_link
-  source_tags   = ["gifs-website-node"]
-  source_ranges = ["0.0.0.0/0"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["80", "81", "82", "5000", "3306"]
-  }
+import {
+  to = google_compute_firewall.gifs_website_firewall
+  id = "gifs-website-test"
 }
