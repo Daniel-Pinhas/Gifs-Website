@@ -10,19 +10,12 @@ response_json = response.stdout.decode("utf-8")
 available_versions = [tag["name"] for tag in json.loads(response_json)["results"]]
 
 if available_versions:
-    # Filter versions based on repository name and extract the version part
-    existing_versions = [float(version.split(":")[1]) for version in available_versions if version.startswith("flask-k8s:")]
+    # Filter versions based on the repository name and extract the version part
+    existing_versions = [float(version) for version in available_versions if version.startswith("1.")]
     latest_version = max(existing_versions)
     next_version = latest_version + 0.1
 else:
     next_version = 1.0
-
-# Format the version number to one decimal place
-next_version = f"{next_version:.1f}"
-image_name = f"danielpinhas/flask-k8s:{next_version}"
-
-# Rest of your script...
-
 
 # Format the version number to one decimal place
 next_version = f"{next_version:.1f}"
@@ -46,8 +39,8 @@ client.images.push(repository="danielpinhas/flask-k8s", tag="latest")
 print(f"Successfully pushed latest image: {latest_image_name}")
 
 # Remove the intermediate images without a tag
+images = client.images.list()
 intermediate_images = [image for image in images if not image.tags]
 for image in intermediate_images:
     client.images.remove(image=image.id, force=True)
     print(f"Successfully deleted intermediate image: {image.id}")
-
