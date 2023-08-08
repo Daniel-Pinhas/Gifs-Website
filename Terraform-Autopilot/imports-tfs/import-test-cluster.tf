@@ -44,3 +44,15 @@ resource "google_compute_subnetwork" "subnet" {
   network       = google_compute_network.vpc.self_link
   ip_cidr_range = "10.10.0.0/24"
 }
+
+resource "google_compute_firewall" "gifs_website_firewall" {
+  name          = "gifs-website"
+  network       = google_compute_network.vpc.self_link
+  source_tags   = ["gifs-website-node"]
+  source_ranges = ["0.0.0.0/0"]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "81", "82", "5000", "3306"]
+  }
+}
