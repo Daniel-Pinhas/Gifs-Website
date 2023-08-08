@@ -1,3 +1,5 @@
 DevOps-Projects/Pipeline-K8S/K8S-YAML/mysql-secret.yml
-.terraform
-.terraform.lock.hcl
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/test/.terraform.lock.hcl
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/test/.terraform
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/prod/.terraform
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/prod/.terraform.lock.hcl
