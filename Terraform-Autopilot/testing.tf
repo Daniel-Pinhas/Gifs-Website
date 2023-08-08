@@ -29,4 +29,15 @@ resource "google_container_cluster" "primary" {
   enable_autopilot = true
 }
 
+resource "google_compute_firewall" "gifs_website_firewall" {
+  name          = "gifs-website-test-rule"
+  network       = google_compute_network.vpc.self_link
+  source_tags   = ["gifs-website-node"]
+  source_ranges = ["0.0.0.0/0"]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "81", "82", "5000", "3306"]
+  }
+}
 
