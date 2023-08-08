@@ -29,7 +29,7 @@ resource "google_compute_subnetwork" "subnet" {
 }
 
 resource "google_container_cluster" "primary" {
-  name             = "gifs-website-test"
+  name             = "gifs-website-prod"
   location         = "us-central1"
   network          = google_compute_network.vpc.id
   subnetwork       = google_compute_subnetwork.subnet.id
@@ -37,7 +37,7 @@ resource "google_container_cluster" "primary" {
 }
 
 resource "google_compute_firewall" "gifs_website_firewall" {
-  name          = "gifs-website"
+  name          = "gifs-website-prod"
   network       = google_compute_network.vpc.self_link
   source_tags   = ["gifs-website-node"]
   source_ranges = ["0.0.0.0/0"]
