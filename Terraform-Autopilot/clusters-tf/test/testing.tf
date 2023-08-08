@@ -10,8 +10,8 @@ resource "google_compute_network" "vpc" {
 }
 
 locals {
-  network_name = "lofty-dynamics-393510-vpc"
-  subnet_name  = "lofty-dynamics-393510-subnet"
+  network_name = "gifs-website-test-vpc"
+  subnet_name  = "gifs-website-test-subnet"
 }
 
 resource "google_compute_subnetwork" "subnet" {
@@ -30,7 +30,7 @@ resource "google_container_cluster" "primary" {
 }
 
 resource "google_compute_firewall" "gifs_website_firewall" {
-  name          = "gifs-website"
+  name          = "gifs-website-test"
   network       = google_compute_network.vpc.self_link
   source_tags   = ["gifs-website-node"]
   source_ranges = ["0.0.0.0/0"]
