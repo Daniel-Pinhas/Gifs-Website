@@ -17,8 +17,8 @@ resource "google_compute_network" "vpc" {
 }
 
 locals {
-  network_name = "lofty-dynamics-393510-vpc"
-  subnet_name  = "lofty-dynamics-393510-subnet"
+  network_name = "gifs-website-prod-vpc"
+  subnet_name  = "gifs-website-prod-subnet"
 }
 
 resource "google_compute_subnetwork" "subnet" {
