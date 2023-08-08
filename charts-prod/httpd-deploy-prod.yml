@@ -97,7 +97,7 @@ data:
         <section id="alpacas">
             <h2>Alpacas Gifs</h2>
             <p>Click the button below to explore Alpacas Gifs:</p>
-            <button onclick="window.location.href='http://http://35.239.146.146:5000'">Explore Alpacas Gifs</button>
+            <button onclick="window.location.href='http://35.239.146.146:5000'">Explore Alpacas Gifs</button>
         </section>
 
         <footer>
