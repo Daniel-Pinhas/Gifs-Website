@@ -1,17 +1,20 @@
 import docker
 import subprocess
-import json  # Don't forget to import the json module
+import json
 
 client = docker.from_env()
 
 # Fetch available versions using curl and jq
 response = subprocess.run(["curl", "-s", "https://registry.hub.docker.com/v2/repositories/danielpinhas/flask-k8s/tags/"], stdout=subprocess.PIPE)
 response_json = response.stdout.decode("utf-8")
+print("Response JSON:", response_json)  # Add this line
+
 available_versions = [tag["name"] for tag in json.loads(response_json)["results"]]
+print("Available Versions:", available_versions)  # Add this line
 
 if available_versions:
-    # Convert version strings to floats and find the latest version
-    existing_versions = [float(version) for version in available_versions if version.startswith("danielpinhas/flask-k8s:")]
+    existing_versions = [float(version.split(":")[1]) for version in available_versions if version.startswith("danielpinhas/flask-k8s:")]
+    print("Existing Versions:", existing_versions)  # Add this line
     latest_version = max(existing_versions)
     next_version = latest_version + 0.1
 else:
