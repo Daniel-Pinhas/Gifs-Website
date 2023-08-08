@@ -7,18 +7,22 @@ client = docker.from_env()
 # Fetch available versions using curl and jq
 response = subprocess.run(["curl", "-s", "https://registry.hub.docker.com/v2/repositories/danielpinhas/flask-k8s/tags/"], stdout=subprocess.PIPE)
 response_json = response.stdout.decode("utf-8")
-print("Response JSON:", response_json)  # Add this line
-
 available_versions = [tag["name"] for tag in json.loads(response_json)["results"]]
-print("Available Versions:", available_versions)  # Add this line
 
 if available_versions:
-    existing_versions = [float(version.split(":")[1]) for version in available_versions if version.startswith("danielpinhas/flask-k8s:")]
-    print("Existing Versions:", existing_versions)  # Add this line
+    # Filter versions based on repository name and extract the version part
+    existing_versions = [float(version.split(":")[1]) for version in available_versions if version.startswith("flask-k8s:")]
     latest_version = max(existing_versions)
     next_version = latest_version + 0.1
 else:
     next_version = 1.0
+
+# Format the version number to one decimal place
+next_version = f"{next_version:.1f}"
+image_name = f"danielpinhas/flask-k8s:{next_version}"
+
+# Rest of your script...
+
 
 # Format the version number to one decimal place
 next_version = f"{next_version:.1f}"
