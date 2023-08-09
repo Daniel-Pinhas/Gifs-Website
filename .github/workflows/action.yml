@@ -16,14 +16,14 @@ jobs:
     - name: Generate cred.json
       uses: frdrwrt/write-to-file@v1.3
       with:
-        filepath: Gifs-Website/Terraform-Autopilot/cred.json
+        filepath: Terraform-Autopilot/cred.json
         content: ${{secrets.GCP_CREDENTIAL}}
         mode: 744
 
     - name: Dependncies
       run: >
         pip3 install docker
-        export GOOGLE_APPLICATION_CREDENTIALS="Gifs-Website/Terraform-Autopilot/cred.json"
+        export GOOGLE_APPLICATION_CREDENTIALS="Terraform-Autopilot/cred.json"
         
     - name: Updating Changes
       run: >
