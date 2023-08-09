@@ -70,19 +70,19 @@ jobs:
 
       - name: Build and Push Flask-1 Image   
         run: >
-          cd Gifs-Website/App/Flask-Project && python3 manageVersion.py
+          python3 manageVersion.py;
           echo 'Build and Push Flask-1 Image Stage Completed'
         working-directory: App/Flask-Project
 
       - name: Build and Push Flask-2 Image
         run: >
-          cd Gifs-Website/App/Flask-Project2 && python3 manageVersion.py
+          python3 manageVersion.py;
           echo 'Build and Push Flask-2 Image Stage Completed'
         working-directory: App/Flask-Project2
 
       - name: Build and Push Flask-3 Image
         run: >
-          cd Gifs-Website/App/Flask-Project3 && python3 manageVersion.py
+          python3 manageVersion.py;
           echo 'Build and Push Flask-3 Image Stage Completed'
         working-directory: App/Flask-Project3
 
