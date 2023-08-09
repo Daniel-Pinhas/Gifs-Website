@@ -25,17 +25,17 @@ jobs:
           mode: 744
       - name: Activate GCP Service Account
         run: >
-          gcloud auth activate-service-account --key-file=cred.json
+          gcloud auth activate-service-account --key-file=cred.json;
         working-directory: Terraform-Autopilot
   
       - name: Setup GKE Cluster for Testing
         run: >
-          gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510
+          gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510;
         working-directory: Terraform-Autopilot
   
       - name: Setup GKE Cluster for Production
         run: >
-          gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510
+          gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510;
         working-directory: Terraform-Autopilot
           
   Checkout-Code-and-Login:
@@ -58,7 +58,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Dependencies
         run: >
-          pip3 install docker
+          pip3 install docker;
 
   Versioning-Images:
     name: Versioning Application Images
@@ -69,22 +69,22 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build and Push Flask-1 Image   
-        working-directory: App/Flask-Project
         run: >
-          cd Gifs-Website/App/Flask-Project && python3 manageVersion.py
-          echo 'Build and Push Flask-1 Image Stage Completed'
+          cd Gifs-Website/App/Flask-Project && python3 manageVersion.py;
+          echo 'Build and Push Flask-1 Image Stage Completed';
+        working-directory: App/Flask-Project
 
       - name: Build and Push Flask-2 Image
-        working-directory: App/Flask-Project2
         run: >
-          cd Gifs-Website/App/Flask-Project2 && python3 manageVersion.py
-          echo 'Build and Push Flask-2 Image Stage Completed'
+          cd Gifs-Website/App/Flask-Project2 && python3 manageVersion.py;
+          echo 'Build and Push Flask-2 Image Stage Completed';
+        working-directory: App/Flask-Project2
 
       - name: Build and Push Flask-3 Image
-        working-directory: App/Flask-Project3
         run: >
-          cd Gifs-Website/App/Flask-Project3 && python3 manageVersion.py
-          echo 'Build and Push Flask-3 Image Stage Completed'
+          cd Gifs-Website/App/Flask-Project3 && python3 manageVersion.py;
+          echo 'Build and Push Flask-3 Image Stage Completed';
+        working-directory: App/Flask-Project3
 
   Deploy-Testing-Env:
     name: Deploy to Testing Env GCP Cluster
@@ -94,16 +94,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Deploy to Testing Env
-        working-directory: charts-prod
         run: >
-          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test
-          cd charts-prod && bash changeTagflask.sh
-          cd charts-prod && kubectl apply -f service-html.yml
-          cd charts-prod && kubectl apply -f flask-prod.yml
-          sleep 60
-          cd charts-prod && bash updateHTML.sh
-          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml
-          echo 'Deploy Application into Rancher Desktop Completed'
+          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
+          cd charts-prod && bash changeTagflask.sh;
+          cd charts-prod && kubectl apply -f service-html.yml;
+          cd charts-prod && kubectl apply -f flask-prod.yml;
+          sleep 60;
+          cd charts-prod && bash updateHTML.sh;
+          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
+          echo 'Deploy Application into Rancher Desktop Completed';
+        working-directory: charts-prod
 
   Test-Testing-Server:
     name: Testing Test-Server
@@ -113,11 +113,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Test Testing Server
-        working-directory: tests
         run: >
-          cd Gifs-Website/tests && bash ingressIP.sh
-          cd Gifs-Website/tests && bash test.sh
-          echo Testing Test-Server Stage Completed
+          cd Gifs-Website/tests && bash ingressIP.sh;
+          cd Gifs-Website/tests && bash test.sh;
+          echo Testing Test-Server Stage Completed;
+        working-directory: tests
 
   Deploy-Production-Env:
     name: Deploy to Production Env GCP Cluster
@@ -127,16 +127,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Deploy to Production Env
-        working-directory: charts-prod
         run: >
-          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod
-          cd charts-prod && bash changeTagflask.sh
-          cd charts-prod && kubectl apply -f service-html.yml
-          cd charts-prod && kubectl apply -f flask-prod.yml
-          sleep 60
-          cd charts-prod && bash updateHTML.sh
-          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml
-          echo 'Deploy Application into Production GCP Cluster Completed'
+          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod;
+          cd charts-prod && bash changeTagflask.sh;
+          cd charts-prod && kubectl apply -f service-html.yml;
+          cd charts-prod && kubectl apply -f flask-prod.yml;
+          sleep 60;
+          cd charts-prod && bash updateHTML.sh;
+          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
+          echo 'Deploy Application into Production GCP Cluster Completed';
+        working-directory: charts-prod
 
   Test-Production-Server:
     name: Testing Prod-Server
@@ -146,8 +146,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Test Production Server
-        working-directory: tests
         run: >
-          cd Gifs-Website/tests && bash ingressIP.sh
-          cd Gifs-Website/tests && bash prod.sh
-          echo 'Testing Prod-Server Stage Completed'
+          cd Gifs-Website/tests && bash ingressIP.sh;
+          cd Gifs-Website/tests && bash prod.sh;
+          echo 'Testing Prod-Server Stage Completed';
+        working-directory: tests
