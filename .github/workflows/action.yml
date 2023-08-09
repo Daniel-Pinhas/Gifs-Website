@@ -26,7 +26,7 @@ jobs:
 
     - name: Updating Changes
       run: >
-        cd ~ && sudo rm -rf Gifs-Website || true;
+        cd ~ && sudo rm -rf Gifs-Website || true;  
         cd ~ && git clone https://github.com/Daniel-Pinhas/Gifs-Website.git;
 
 
