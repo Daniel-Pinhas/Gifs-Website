@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-  Dependncies:
+  Dependencies:
     name: Install Dependencies
     runs-on: ubuntu-latest
     steps:
@@ -54,6 +54,7 @@ jobs:
   Versioning-Images:
     name: Versioning Application Images
     runs-on: ubuntu-latest
+    needs: [GKE-Setup, Checkout-Code-and-Login, Dependencies]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -79,6 +80,7 @@ jobs:
   Deploy-Testing-Env:
     name: Deploy to Testing Env GCP Cluster
     runs-on: ubuntu-latest
+    needs: [Versioning-Images]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -97,6 +99,7 @@ jobs:
   Test-Testing-Server:
     name: Testing Test-Server
     runs-on: ubuntu-latest
+    needs: [Deploy-Testing-Env]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -110,6 +113,7 @@ jobs:
   Deploy-Production-Env:
     name: Deploy to Production Env GCP Cluster
     runs-on: ubuntu-latest
+    needs: [Test-Testing-Server]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -128,6 +132,7 @@ jobs:
   Test-Production-Server:
     name: Testing Prod-Server
     runs-on: ubuntu-latest
+    needs: [Deploy-Production-Env]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
