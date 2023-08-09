@@ -25,7 +25,7 @@ jobs:
           mode: 744
       - name: Activate GCP Service Account
         run: >
-          gcloud auth activate-service-account --key-file=Terraform-Autopilot/cred.json
+          gcloud auth activate-service-account --key-file=cred.json
         working-directory: Terraform-Autopilot
   
       - name: Setup GKE Cluster for Testing
