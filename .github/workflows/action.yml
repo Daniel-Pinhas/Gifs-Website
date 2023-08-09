@@ -70,18 +70,21 @@ jobs:
 
       - name: Build and Push Flask-1 Image   
         run: >
+          pip3 install docker;
           python3 manageVersion.py;
           echo 'Build and Push Flask-1 Image Stage Completed'
         working-directory: App/Flask-Project
 
       - name: Build and Push Flask-2 Image
         run: >
+          pip3 install docker;
           python3 manageVersion.py;
           echo 'Build and Push Flask-2 Image Stage Completed'
         working-directory: App/Flask-Project2
 
       - name: Build and Push Flask-3 Image
         run: >
+          pip3 install docker;
           python3 manageVersion.py;
           echo 'Build and Push Flask-3 Image Stage Completed'
         working-directory: App/Flask-Project3
