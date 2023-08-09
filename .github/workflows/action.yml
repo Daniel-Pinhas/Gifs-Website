@@ -25,7 +25,6 @@ jobs:
           mode: 744
       - name: Setup GKE Clusters
         run: >
-          export GOOGLE_APPLICATION_CREDENTIALS="Terraform-Autopilot/cred.json"
           gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510
           gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510
           
