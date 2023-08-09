@@ -2,84 +2,138 @@ name: Gifs-Website
 
 on:
   pull_request:
-    branches: 
+    branches:
       - main
   workflow_dispatch:
 
+env:
+  GKE_REGION: 'us-central1'
+  PROJECT_ID: 'lofty-dynamics-393510'
+
 jobs:
-  your_job_name:
+  GKE-Setup:
+    name: Setup the cloud environment
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Generate cred.json
+        uses: frdrwrt/write-to-file@v1.3
+        with:
+          filepath: Terraform-Autopilot/cred.json
+          content: ${{ secrets.GCP_CREDENTIAL }}
+          mode: 744
+      - name: Setup GKE Clusters
+        run: >
+          export GOOGLE_APPLICATION_CREDENTIALS="Terraform-Autopilot/cred.json"
+          gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510
+          gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510
+          
+  Checkout-Code-and-Login:
+    name: Checkout code and Login to Dockerhub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Login to Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-    - name: Generate cred.json
-      uses: frdrwrt/write-to-file@v1.3
-      with:
-        filepath: Terraform-Autopilot/cred.json
-        content: ${{secrets.GCP_CREDENTIAL}}
-        mode: 744
-
-    - name: Dependncies
-      run: |
+  Dependncies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: >
           pip3 install docker
-          echo ${{ secrets.GCP_CREDENTIAL }} > Terraform-Autopilot/cred.json
-          echo "export GOOGLE_APPLICATION_CREDENTIALS='Terraform-Autopilot/cred.json'" >> $GITHUB_ENV
-      
-        
-    - name: Updating Changes
-      run: >
-        cd ~ && sudo rm -rf Gifs-Website || true;  
-        cd ~ && git clone https://github.com/Daniel-Pinhas/Gifs-Website.git;
 
+  Versioning-Images:
+    name: Versioning Application Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Build and Push Flask-1 Image
-      run: >
-        cd ~/Gifs-Website/App/Flask-Project && python3 manageVersion.py;
-        echo 'Build and Push Flask-1 Image Stage Completed';
+      - name: Build and Push Flask-1 Image   
+        working-directory: App/Flask-Project
+        run: >
+          cd Gifs-Website/App/Flask-Project && python3 manageVersion.py
+          echo 'Build and Push Flask-1 Image Stage Completed'
 
-    - name: Build and Push Flask-2 Image
-      run: >
-        cd ~/Gifs-Website/App/Flask-Project2 && python3 manageVersion.py;
-        echo 'Build and Push Flask-2 Image Stage Completed';
+      - name: Build and Push Flask-2 Image
+        working-directory: App/Flask-Project2
+        run: >
+          cd Gifs-Website/App/Flask-Project2 && python3 manageVersion.py
+          echo 'Build and Push Flask-2 Image Stage Completed'
 
-    - name: Build and Push Flask-3 Image
-      run: >
-        cd ~/Gifs-Website/App/Flask-Project3 && python3 manageVersion.py;
-        echo 'Build and Push Flask-3 Image Stage Completed';
+      - name: Build and Push Flask-3 Image
+        working-directory: App/Flask-Project3
+        run: >
+          cd Gifs-Website/App/Flask-Project3 && python3 manageVersion.py
+          echo 'Build and Push Flask-3 Image Stage Completed'
 
-    - name: Deploy to Testing Env GCP Cluster
-      run: > 
-        gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510
-        kubectl config set-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
-        cd charts-prod && bash changeTagflask.sh;
-        cd charts-prod && kubectl apply -f service-html.yml;
-        cd charts-prod && kubectl apply -f flask-prod.yml;
-        sleep 60;
-        cd charts-prod && bash updateHTML.sh;
-        cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
-        echo 'Deploy Application into Rancher Desktop Completed';
+  Deploy-Testing-Env:
+    name: Deploy to Testing Env GCP Cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy to Testing Env
+        working-directory: charts-prod
+        run: >
+          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test
+          cd charts-prod && bash changeTagflask.sh
+          cd charts-prod && kubectl apply -f service-html.yml
+          cd charts-prod && kubectl apply -f flask-prod.yml
+          sleep 60
+          cd charts-prod && bash updateHTML.sh
+          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml
+          echo 'Deploy Application into Rancher Desktop Completed'
 
-    - name: Testing Test-Server
-      run: >
-        cd tests && bash ingressIP.sh;
-        cd tests && bash test.sh;
-        echo Testing Test-Server Stage Completed;
+  Test-Testing-Server:
+    name: Testing Test-Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Test Testing Server
+        working-directory: tests
+        run: >
+          cd Gifs-Website/tests && bash ingressIP.sh
+          cd Gifs-Website/tests && bash test.sh
+          echo Testing Test-Server Stage Completed
 
-    - name: Deploy to Production Env GCP Cluster
-      run: >
-        gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510
-        kubectl config set-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod;
-        cd charts-prod && bash changeTagflask.sh
-        cd charts-prod && kubectl apply -f service-html.yml;
-        cd charts-prod && kubectl apply -f flask-prod.yml;
-        sleep 60;
-        cd charts-prod && bash updateHTML.sh;
-        cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
-        echo 'Deploy Application into Production GCP Cluster Completed';
+  Deploy-Production-Env:
+    name: Deploy to Production Env GCP Cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy to Production Env
+        working-directory: charts-prod
+        run: >
+          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod
+          cd charts-prod && bash changeTagflask.sh
+          cd charts-prod && kubectl apply -f service-html.yml
+          cd charts-prod && kubectl apply -f flask-prod.yml
+          sleep 60
+          cd charts-prod && bash updateHTML.sh
+          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml
+          echo 'Deploy Application into Production GCP Cluster Completed'
 
-    - name: Testing Prod-Server
-      run: >
-        cd Gifs-Website/tests && bash ingressIP.sh;
-        cd Gifs-Website/tests && bash prod.sh;
-        echo 'Testing Prod-Server Stage Completed';
+  Test-Production-Server:
+    name: Testing Prod-Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Test Production Server
+        working-directory: tests
+        run: >
+          cd Gifs-Website/tests && bash ingressIP.sh
+          cd Gifs-Website/tests && bash prod.sh
+          echo 'Testing Prod-Server Stage Completed'
