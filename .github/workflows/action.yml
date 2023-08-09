@@ -24,7 +24,7 @@ jobs:
       run: >
         pip3 install docker
         export GOOGLE_APPLICATION_CREDENTIALS="Gifs-Website/Terraform-Autopilot/cred.json"
-        curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-345.0.0-linux-x86_64.tar.gz
+        
 
     - name: Updating Changes
       run: >
