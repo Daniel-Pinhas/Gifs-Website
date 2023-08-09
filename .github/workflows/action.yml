@@ -51,30 +51,30 @@ jobs:
       run: > 
         gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510
         kubectl config set-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
-        cd Gifs-Website/charts-prod && bash changeTagflask.sh;
-        kubectl apply -f service-html.yml;
-        kubectl apply -f flask-prod.yml;
+        cd charts-prod && bash changeTagflask.sh;
+        cd charts-prod && kubectl apply -f service-html.yml;
+        cd charts-prod && kubectl apply -f flask-prod.yml;
         sleep 60;
-        cd Gifs-Website/charts-prod && bash updateHTML.sh;
-        kubectl apply -f httpd-deploy-prod.yml;
+        cd charts-prod && bash updateHTML.sh;
+        cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
         echo 'Deploy Application into Rancher Desktop Completed';
 
     - name: Testing Test-Server
       run: >
-        cd Gifs-Website/tests && bash ingressIP.sh;
-        cd Gifs-Website/tests && bash test.sh;
+        cd tests && bash ingressIP.sh;
+        cd tests && bash test.sh;
         echo Testing Test-Server Stage Completed;
 
     - name: Deploy to Production Env GCP Cluster
       run: >
         gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510
         kubectl config set-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod;
-        cd Gifs-Website/charts-prod && bash changeTagflask.sh
-        cd Gifs-Website/charts-prod && kubectl apply -f service-html.yml;
-        cd Gifs-Website/charts-prod && kubectl apply -f flask-prod.yml;
+        cd charts-prod && bash changeTagflask.sh
+        cd charts-prod && kubectl apply -f service-html.yml;
+        cd charts-prod && kubectl apply -f flask-prod.yml;
         sleep 60;
-        cd Gifs-Website/charts-prod && bash updateHTML.sh;
-        kubectl apply -f httpd-deploy-prod.yml;
+        cd charts-prod && bash updateHTML.sh;
+        cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
         echo 'Deploy Application into Production GCP Cluster Completed';
 
     - name: Testing Prod-Server
