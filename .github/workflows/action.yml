@@ -23,9 +23,13 @@ jobs:
           filepath: Terraform-Autopilot/cred.json
           content: ${{ secrets.GCP_CREDENTIAL }}
           mode: 744
-      - name: Setup GKE Clusters
-        run: >
+      - name: Setup GKE Test Cluster
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS="Terraform-Autopilot/cred.json"
           gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510
+      - name: Setup GKE Prod Cluster
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS="Terraform-Autopilot/cred.json"
           gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510
           
   Checkout-Code-and-Login:
