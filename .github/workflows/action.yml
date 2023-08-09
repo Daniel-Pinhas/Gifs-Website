@@ -21,9 +21,11 @@ jobs:
         mode: 744
 
     - name: Dependncies
-      run: >
-        pip3 install docker
-        export GOOGLE_APPLICATION_CREDENTIALS="Terraform-Autopilot/cred.json"
+      run: |
+          pip3 install docker
+          echo ${{ secrets.GCP_CREDENTIAL }} > Terraform-Autopilot/cred.json
+          echo "export GOOGLE_APPLICATION_CREDENTIALS='Terraform-Autopilot/cred.json'" >> $GITHUB_ENV
+      
         
     - name: Updating Changes
       run: >
