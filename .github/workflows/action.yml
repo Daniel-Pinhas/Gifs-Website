@@ -23,6 +23,8 @@ jobs:
     - name: Dependncies
       run: >
         pip3 install docker
+        export GOOGLE_APPLICATION_CREDENTIALS="Gifs-Website/Terraform-Autopilot/cred.json"
+        curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-345.0.0-linux-x86_64.tar.gz
 
     - name: Updating Changes
       run: >
@@ -47,8 +49,9 @@ jobs:
 
     - name: Deploy to Testing Env GCP Cluster
       run: > 
+        gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510
         kubectl config set-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
-        cd Gifs-Website/charts-prod && bash changeTagflask.sh
+        cd Gifs-Website/charts-prod && bash changeTagflask.sh;
         kubectl apply -f service-html.yml;
         kubectl apply -f flask-prod.yml;
         sleep 60;
@@ -64,6 +67,7 @@ jobs:
 
     - name: Deploy to Production Env GCP Cluster
       run: >
+        gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510
         kubectl config set-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod;
         cd Gifs-Website/charts-prod && bash changeTagflask.sh
         cd Gifs-Website/charts-prod && kubectl apply -f service-html.yml;
