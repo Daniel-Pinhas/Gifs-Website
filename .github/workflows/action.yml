@@ -25,7 +25,6 @@ jobs:
         pip3 install docker
         export GOOGLE_APPLICATION_CREDENTIALS="Gifs-Website/Terraform-Autopilot/cred.json"
         
-
     - name: Updating Changes
       run: >
         cd ~ && sudo rm -rf Gifs-Website || true;  
