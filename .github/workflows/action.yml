@@ -70,20 +70,20 @@ jobs:
 
       - name: Build and Push Flask-1 Image   
         run: >
-          cd Gifs-Website/App/Flask-Project && python3 manageVersion.py;
-          echo 'Build and Push Flask-1 Image Stage Completed';
+          cd Gifs-Website/App/Flask-Project && python3 manageVersion.py
+          echo 'Build and Push Flask-1 Image Stage Completed'
         working-directory: App/Flask-Project
 
       - name: Build and Push Flask-2 Image
         run: >
-          cd Gifs-Website/App/Flask-Project2 && python3 manageVersion.py;
-          echo 'Build and Push Flask-2 Image Stage Completed';
+          cd Gifs-Website/App/Flask-Project2 && python3 manageVersion.py
+          echo 'Build and Push Flask-2 Image Stage Completed'
         working-directory: App/Flask-Project2
 
       - name: Build and Push Flask-3 Image
         run: >
-          cd Gifs-Website/App/Flask-Project3 && python3 manageVersion.py;
-          echo 'Build and Push Flask-3 Image Stage Completed';
+          cd Gifs-Website/App/Flask-Project3 && python3 manageVersion.py
+          echo 'Build and Push Flask-3 Image Stage Completed'
         working-directory: App/Flask-Project3
 
   Deploy-Testing-Env:
@@ -95,7 +95,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy to Testing Env
         run: >
-          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
+          kubectl config get-context;
           cd charts-prod && bash changeTagflask.sh;
           cd charts-prod && kubectl apply -f service-html.yml;
           cd charts-prod && kubectl apply -f flask-prod.yml;
