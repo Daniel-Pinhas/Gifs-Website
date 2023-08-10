@@ -11,8 +11,40 @@ env:
   PROJECT_ID: 'lofty-dynamics-393510'
 
 jobs:
-  GKE-Setup:
+  Versioning-Images:
+    name: Versioning Application Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Login to Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Flask-1 Image   
+        run: >
+          pip3 install docker;
+          python3 manageVersion.py;
+          echo 'Build and Push Flask-1 Image Stage Completed'
+        working-directory: App/Flask-Project
+
+      - name: Build and Push Flask-2 Image
+        run: >
+          python3 manageVersion.py;
+          echo 'Build and Push Flask-2 Image Stage Completed'
+        working-directory: App/Flask-Project2
+
+      - name: Build and Push Flask-3 Image
+        run: >
+          python3 manageVersion.py;
+          echo 'Build and Push Flask-3 Image Stage Completed'
+        working-directory: App/Flask-Project3
+
+  GKE-Setup-Testing-Cluster:
     name: Setup the cloud environment
+    needs: [Versioning-Images]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -30,75 +62,12 @@ jobs:
   
       - name: Setup GKE Cluster for Testing
         run: >
-          gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510;
+          gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510;      
         working-directory: Terraform-Autopilot
-  
-      - name: Setup GKE Cluster for Production
-        run: >
-          gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510;
-        working-directory: Terraform-Autopilot
-          
-  Checkout-Code-and-Login:
-    name: Checkout code and Login to Dockerhub
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Login to Dockerhub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-  Dependencies:
-    name: Install Dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install Dependencies
+      - name: Deploy to Testing Env GCP Cluster
         run: >
-          pip3 install docker;
-
-  Versioning-Images:
-    name: Versioning Application Images
-    runs-on: ubuntu-latest
-    needs: [GKE-Setup, Checkout-Code-and-Login, Dependencies]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Build and Push Flask-1 Image   
-        run: >
-          pip3 install docker;
-          python3 manageVersion.py;
-          echo 'Build and Push Flask-1 Image Stage Completed'
-        working-directory: App/Flask-Project
-
-      - name: Build and Push Flask-2 Image
-        run: >
-          pip3 install docker;
-          python3 manageVersion.py;
-          echo 'Build and Push Flask-2 Image Stage Completed'
-        working-directory: App/Flask-Project2
-
-      - name: Build and Push Flask-3 Image
-        run: >
-          pip3 install docker;
-          python3 manageVersion.py;
-          echo 'Build and Push Flask-3 Image Stage Completed'
-        working-directory: App/Flask-Project3
-
-  Deploy-Testing-Env:
-    name: Deploy to Testing Env GCP Cluster
-    runs-on: ubuntu-latest
-    needs: [Versioning-Images]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Deploy to Testing Env
-        run: >
-          kubectl config get-context;
+          kubectl config get-contexts;
           cd charts-prod && bash changeTagflask.sh;
           cd charts-prod && kubectl apply -f service-html.yml;
           cd charts-prod && kubectl apply -f flask-prod.yml;
@@ -107,11 +76,11 @@ jobs:
           cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
           echo 'Deploy Application into Rancher Desktop Completed';
         working-directory: charts-prod
-
-  Test-Testing-Server:
-    name: Testing Test-Server
+        
+  Test-Testing-Cluster:
+    name: Testing Test-Cluster
     runs-on: ubuntu-latest
-    needs: [Deploy-Testing-Env]
+    needs: [GKE-Setup-Testing-Cluster]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -122,14 +91,27 @@ jobs:
           echo Testing Test-Server Stage Completed;
         working-directory: tests
 
-  Deploy-Production-Env:
-    name: Deploy to Production Env GCP Cluster
+  GKE-Setup-Production-Cluster:
+    name: Setup the cloud environment
+    needs: [Test-Testing-Cluster]
     runs-on: ubuntu-latest
-    needs: [Test-Testing-Server]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Deploy to Production Env
+      - name: Generate cred.json
+        uses: frdrwrt/write-to-file@v1.3
+        with:
+          filepath: Terraform-Autopilot/cred.json
+          content: ${{ secrets.GCP_CREDENTIAL }}
+          mode: 744
+      - name: Activate GCP Service Account
+        run: >
+          gcloud auth activate-service-account --key-file=cred.json;
+          working-directory: Terraform-Autopilot
+      - name: Setup GKE Cluster for Production
+        run: >
+          gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510;
+      - name: Deploy to Production Env GCP Cluster
         run: >
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod;
           cd charts-prod && bash changeTagflask.sh;
@@ -144,7 +126,7 @@ jobs:
   Test-Production-Server:
     name: Testing Prod-Server
     runs-on: ubuntu-latest
-    needs: [Deploy-Production-Env]
+    needs: [GKE-Setup-Production-Cluster]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
