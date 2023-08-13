@@ -43,7 +43,7 @@ jobs:
         working-directory: App/Flask-Project3
 
   GKE-Setup-Testing-Cluster:
-    name: Setup the cloud environment
+    name: Setup the GKE-Testing-Cluster
     needs: [Versioning-Images]
     runs-on: ubuntu-latest
     steps:
@@ -58,10 +58,6 @@ jobs:
       - name: Activate GCP Service Account
         run: >
           gcloud auth activate-service-account --key-file=cred.json;
-        working-directory: Terraform-Autopilot
-  
-      - name: Setup GKE Cluster for Testing
-        run: >
           gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510;      
         working-directory: Terraform-Autopilot
 
@@ -92,7 +88,7 @@ jobs:
         working-directory: tests
 
   GKE-Setup-Production-Cluster:
-    name: Setup the cloud environment
+    name: Setup GKE Cluster for Production
     needs: [Test-Testing-Cluster]
     runs-on: ubuntu-latest
     steps:
@@ -107,10 +103,9 @@ jobs:
       - name: Activate GCP Service Account
         run: >
           gcloud auth activate-service-account --key-file=cred.json;
-          working-directory: Terraform-Autopilot
-      - name: Setup GKE Cluster for Production
-        run: >
           gcloud container clusters get-credentials gifs-website-prod --region us-central1 --project lofty-dynamics-393510;
+        working-directory: Terraform-Autopilot
+
       - name: Deploy to Production Env GCP Cluster
         run: >
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod;
