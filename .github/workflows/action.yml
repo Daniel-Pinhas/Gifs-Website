@@ -62,14 +62,7 @@ jobs:
         working-directory: Terraform-Autopilot
 
       - name: Deploy to Testing Env GCP Cluster
-        uses: google-github-actions/get-gke-credentials@v1
-        with:
-          project_id: lofty-dynamics-393510
-          cluster_name: gifs-website-test
-          location: us-central1
-      - name: Deploy to Testing Env GCP Cluster
         run: >
-          kubectl config get-contexts;
           bash changeTagflask.sh;
           kubectl apply -f service-html.yml;
           kubectl apply -f flask-prod.yml;
