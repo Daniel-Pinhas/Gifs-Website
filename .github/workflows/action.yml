@@ -63,7 +63,10 @@ jobs:
 
       - name: Deploy to Testing Env GCP Cluster
         run: >
-          bash changeTagflask.sh;
+          sudo apt install jq -y 
+          bash changeTagflask.sh danielpinhas/flask-k8s;
+          bash changeTagflask.sh danielpinhas/flask2-k8s;
+          bash changeTagflask.sh danielpinhas/flask3-k8s;
           kubectl apply -f service-html.yml;
           kubectl apply -f flask-prod.yml;
           sleep 60;
