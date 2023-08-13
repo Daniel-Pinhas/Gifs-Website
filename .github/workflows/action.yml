@@ -62,6 +62,11 @@ jobs:
         working-directory: Terraform-Autopilot
 
       - name: Deploy to Testing Env GCP Cluster
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: gifs-website-test
+          location: us-central1
+      - name: Deploy to Testing Env GCP Cluster
         run: >
           kubectl config get-contexts;
           bash changeTagflask.sh;
