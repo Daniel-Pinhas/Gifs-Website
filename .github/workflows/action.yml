@@ -68,12 +68,12 @@ jobs:
       - name: Deploy to Testing Env GCP Cluster
         run: >
           kubectl config get-contexts;
-          cd charts-prod && bash changeTagflask.sh;
-          cd charts-prod && kubectl apply -f service-html.yml;
-          cd charts-prod && kubectl apply -f flask-prod.yml;
+          bash changeTagflask.sh;
+          kubectl apply -f service-html.yml;
+          kubectl apply -f flask-prod.yml;
           sleep 60;
-          cd charts-prod && bash updateHTML.sh;
-          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
+          bash updateHTML.sh;
+          kubectl apply -f httpd-deploy-prod.yml;
           echo 'Deploy Application into Rancher Desktop Completed';
         working-directory: charts-prod
         
@@ -86,8 +86,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Test Testing Server
         run: >
-          cd Gifs-Website/tests && bash ingressIP.sh;
-          cd Gifs-Website/tests && bash test.sh;
+          bash ingressIP.sh;
+          bash test.sh;
           echo Testing Test-Server Stage Completed;
         working-directory: tests
 
@@ -114,12 +114,12 @@ jobs:
       - name: Deploy to Production Env GCP Cluster
         run: >
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod;
-          cd charts-prod && bash changeTagflask.sh;
-          cd charts-prod && kubectl apply -f service-html.yml;
-          cd charts-prod && kubectl apply -f flask-prod.yml;
+          bash changeTagflask.sh;
+          kubectl apply -f service-html.yml;
+          kubectl apply -f flask-prod.yml;
           sleep 60;
-          cd charts-prod && bash updateHTML.sh;
-          cd charts-prod && kubectl apply -f httpd-deploy-prod.yml;
+          bash updateHTML.sh;
+          kubectl apply -f httpd-deploy-prod.yml;
           echo 'Deploy Application into Production GCP Cluster Completed';
         working-directory: charts-prod
 
@@ -132,7 +132,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Test Production Server
         run: >
-          cd Gifs-Website/tests && bash ingressIP.sh;
-          cd Gifs-Website/tests && bash prod.sh;
+          bash ingressIP.sh;
+          bash prod.sh;
           echo 'Testing Prod-Server Stage Completed';
         working-directory: tests
