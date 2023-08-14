@@ -12,7 +12,7 @@ update_yaml_file() {
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <repository>"
     exit 1
-fi
+fi 
 
 # Repository from command-line argument
 repository="$1"
