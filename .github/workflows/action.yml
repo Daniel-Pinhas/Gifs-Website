@@ -122,8 +122,6 @@ jobs:
           bash changeTagflask.sh danielpinhas/flask3-k8s;
           kubectl apply -f service-html.yml;
           kubectl apply -f flask-prod.yml;
-          sleep 60;
-          bash updateHTML.sh;
           kubectl apply -f httpd-deploy-prod.yml;
           echo 'Deploy Application into Production GCP Cluster Completed';
         working-directory: charts-prod
