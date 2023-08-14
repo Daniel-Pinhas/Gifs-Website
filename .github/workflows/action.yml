@@ -63,7 +63,6 @@ jobs:
             location: "us-central1"
       - name: Activate GCP Service Account
         run: >
-          gcloud container clusters get-credentials gifs-website-test --region us-central1 --project lofty-dynamics-393510;
           sudo apt install jq -y;      
         working-directory: Terraform-Autopilot
 
