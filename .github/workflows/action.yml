@@ -46,15 +46,21 @@ jobs:
     name: Setup the GKE-Testing-Cluster
     needs: [Versioning-Images]
     runs-on: ubuntu-latest
+    env:
+      GKE_CLUSTER: "gifs-website-test"
+      GKE_REGION: "us-central1"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Generate cred.json
-        uses: frdrwrt/write-to-file@v1.3
+      - name: Setup GCloud CLI
+        uses: google-github-actions/auth@v1
         with:
-          filepath: Terraform-Autopilot/cred.json
-          content: ${{ secrets.GCP_CREDENTIAL }}
-          mode: 744
+          credentials_json: ${{ secrets.GCP_CREDENTIAL }}
+      - name: Retrieve cluster info for use with kubectl
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+            cluster_name: "gifs-website-test"
+            location: "us-central1"
       - name: Activate GCP Service Account
         run: >
           gcloud auth activate-service-account --key-file=cred.json;
