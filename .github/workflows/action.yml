@@ -56,6 +56,12 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIAL }}
+      - name: Generate cred.json
+        uses: frdrwrt/write-to-file@v1.3
+        with:
+          filepath: Terraform-Autopilot/cred.json
+          content: ${{ secrets.GCP_CREDENTIAL }}
+          mode: 744
       - name: Retrieve cluster info for use with kubectl
         uses: google-github-actions/get-gke-credentials@v1
         with:
