@@ -68,7 +68,7 @@ jobs:
 
       - name: Get RDS-Secrets
         run: >
-            echo $DEV_RDS_USERNAME &gt;&gt; charts-prod/values.yml
+            echo $DEV_RDS_CREDS &gt;&gt; charts-prod/values.yml
             cat charts-prod/values.yml
         shell: bash
         env:
@@ -76,7 +76,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
-         name: DEV_RDS_USERNAME
+         name: DEV_RDS_CREDS
          path: charts-prod/values.yml
 
       - name: Deploy to Testing Env GCP Cluster
