@@ -66,8 +66,22 @@ jobs:
           sudo apt install jq -y;      
         working-directory: Terraform-Autopilot
 
+      - name: Get RDS-Secrets
+        run: >
+            echo $DEV_RDS_USERNAME &gt;&gt; charts-prod/values.yml
+            cat charts-prod/values.yml
+        shell: bash
+        env:
+          DEV_RDS_USERNAME : ${{secrets.RDS_CREDS}}
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+         name: DEV_RDS_USERNAME
+         path: charts-prod/values.yml
+
       - name: Deploy to Testing Env GCP Cluster
         run: >
+          cat values.yml
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test; 
           bash changeTagflask.sh danielpinhas/flask-k8s;
           bash changeTagflask.sh danielpinhas/flask2-k8s;
@@ -115,8 +129,15 @@ jobs:
           sudo apt install jq -y;      
         working-directory: Terraform-Autopilot
 
+      - name: Generate rds_cred.txt
+        uses: frdrwrt/write-to-file@v1.3
+        with:
+          filepath: charts_prod/rds_cred.txt
+          content: ${{ secrets.RDS_CREDS }}
+          mode: 744
       - name: Deploy to Production Env GCP Cluster
         run: >
+
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod; 
           bash changeTagflask.sh danielpinhas/flask-k8s;
           bash changeTagflask.sh danielpinhas/flask2-k8s;

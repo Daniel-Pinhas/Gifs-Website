@@ -2,7 +2,7 @@ user_name:
   valueFrom:
     secretKeyRef:
       name: rds-secrets
-      key: user_name
+      key: $DEV_RDS_USERNAME
 user_pwd: 
   valueFrom:
     secretKeyRef:
