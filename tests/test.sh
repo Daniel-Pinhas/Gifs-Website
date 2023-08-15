@@ -8,10 +8,10 @@ IPtest='http://FLASK_IP_PLACEHOLDER_PROD'
 
 
 # Define the Flask application URL
-FLASK_URL="http://${IPtest}"
+FLASK_URL="http://35.239.208.149"
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://${IPtest}")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://35.239.208.149")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
@@ -21,10 +21,10 @@ else
     exit 1
 fi
 
-FLASK_URL="http://${IPflask1}"
+FLASK_URL="http://34.31.106.119:5000"
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://${IPflask1}")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://34.31.106.119:5000")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
@@ -34,10 +34,10 @@ else
     exit 1
 fi
 
-FLASK_URL="http://${IPflask2}"
+FLASK_URL="http://34.170.154.176:5000"
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://${IPflask2}")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://34.170.154.176:5000")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
@@ -47,10 +47,10 @@ else
     exit 1
 fi
 
-FLASK_URL="http://${IPflask3}"
+FLASK_URL="http://35.224.239.186:5000"
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://${IPflask3}")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://35.224.239.186:5000")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
