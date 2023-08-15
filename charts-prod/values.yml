@@ -2,12 +2,12 @@ user_name:
   valueFrom:
     secretKeyRef:
       name: rds-secrets
-      key: $DEV_RDS_USERNAME
+      key: $DEV_RDS_CREDS
 user_pwd: 
   valueFrom:
     secretKeyRef:
       name: rds-secrets
-      key: user_pwd
+      key: $DEV_RDS_CREDS
 
 db_url: rds-gifs-db.cih3afqd7fge.us-east-2.rds.amazonaws.com
 
