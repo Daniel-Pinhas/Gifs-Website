@@ -66,14 +66,9 @@ jobs:
           sudo apt install jq -y;      
         working-directory: Terraform-Autopilot
 
-      - name: Get RDS-Secrets
-        run: >
-            echo $DEV_RDS_CREDS &gt;&gt; charts-prod/values.yml
-            cat charts-prod/values.yml
-        shell: bash
+      - name: Insert RDS-Secrets
         env:
           DEV_RDS_USERNAME : ${{secrets.RDS_CREDS}}
-      - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
          name: DEV_RDS_CREDS
