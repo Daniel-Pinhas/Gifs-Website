@@ -93,7 +93,7 @@ jobs:
 
   GKE-Setup-Production-Cluster:
     name: Setup the GKE-Prod-Cluster
-    needs: [Versioning-Images]
+    needs: [Test-Testing-Cluster]
     runs-on: ubuntu-latest
     env:
       GKE_CLUSTER: "gifs-website-prod"
