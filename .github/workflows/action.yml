@@ -76,7 +76,7 @@ jobs:
 
       - name: Deploy to Testing Env GCP Cluster
         run: >
-          cat values.yml
+          cat values.yml;
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test; 
           bash changeTagflask.sh danielpinhas/flask-k8s;
           bash changeTagflask.sh danielpinhas/flask2-k8s;
