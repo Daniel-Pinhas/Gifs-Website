@@ -75,7 +75,10 @@ jobs:
         working-directory: charts-prod
           
       - name: Run changeValues.sh
-        run: chmod +x changeValues.sh && bash changeValues.sh
+        run: >
+          chmod +x changeValues.sh && bash changeValues.sh danielpinhas/flask-k8s
+          bash changeValues.sh danielpinhas/flask2-k8s
+          bash changeValues.sh danielpinhas/flask2-k8s
         working-directory: charts-prod
           
       - name: Deploy to Testing Env GCP Cluster
