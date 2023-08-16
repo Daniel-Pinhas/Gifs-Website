@@ -61,10 +61,6 @@ jobs:
         with:
             cluster_name: "gifs-website-test"
             location: "us-central1"
-            
-      - name: Activate GCP Service Account
-        run: sudo apt-get update
-        working-directory: charts-prod
           
       - name: Install jq
         run: sudo apt-get install jq -y
@@ -73,15 +69,19 @@ jobs:
       - name: Modify values.yml with secret
         run: sed -i "s|\$DEV_RDS_CREDS_U|${{ secrets.RDS_CREDS }}|" values.yml
         working-directory: charts-prod
+
+      - name: Modify values.yml with secret
+        run: sed -i "s|\$DEV_RDS_CREDS_P|${{ secrets.RDS_CREDS }}|" values.yml
+        working-directory: charts-prod
           
       - name: Run changeValues.sh
-        run: bash changeValues.sh
+        run: chmod +x changeValues.sh && bash changeValues.sh
         working-directory: charts-prod
           
       - name: Deploy to Testing Env GCP Cluster
         run: >
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
-          helm upgrade --install Gifs-Website-Testing Chart.yml -f values.yml 
+          helm upgrade --install Gifs-Website-Testing Chart.yml -f values.yml; 
           echo 'Deploy Application into Rancher Desktop Completed';
         working-directory: charts-prod
         
