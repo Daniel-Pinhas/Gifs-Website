@@ -64,9 +64,9 @@ jobs:
       - name: Activate GCP Service Account
         run: >
           sudo apt install jq -y;  
-          sed -i "s|\$DEV_RDS_CREDS_U|$(echo ${{ secrets.RDS_CREDS }})|" values.yml
-          sed -i "s|\$DEV_RDS_CREDS_U|$(echo ${{ secrets.RDS_CREDS }})|" values.yml
-          bash changeValues.sh        
+          sed -i "s|\$DEV_RDS_CREDS_U|$(echo ${{ secrets.RDS_CREDS }})|" ./values.yml
+          sed -i "s|\$DEV_RDS_CREDS_U|$(echo ${{ secrets.RDS_CREDS }})|" ./values.yml
+          bash ./changeValues.sh        
         working-directory: charts-prod
 
       - name: Deploy to Testing Env GCP Cluster
