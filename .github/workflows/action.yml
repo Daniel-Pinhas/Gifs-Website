@@ -64,8 +64,8 @@ jobs:
       - name: Activate GCP Service Account
         run: >
           sudo apt install jq -y;  
-          sed -i "s|\$DEV_RDS_CREDS_U|${{ secrets.RDS_CREDS }}|"
-          sed -i "s|\$DEV_RDS_CREDS_P|${{ secrets.RDS_CREDS }}|"
+          sed -i "s|\$DEV_RDS_CREDS_U|${{ secrets.RDS_CREDS }}|" values.yml
+          sed -i "s|\$DEV_RDS_CREDS_P|${{ secrets.RDS_CREDS }}|" values.yml
           cd ../k8s-prod bash changeValues.sh        
         working-directory: charts-prod
 
