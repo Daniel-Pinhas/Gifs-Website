@@ -63,27 +63,16 @@ jobs:
             location: "us-central1"
       - name: Activate GCP Service Account
         run: >
-          sudo apt install jq -y;      
-        working-directory: Terraform-Autopilot
-
-      - name: Insert RDS-Secrets
-        env:
-          DEV_RDS_USERNAME : ${{secrets.RDS_CREDS}}
-        uses: actions/upload-artifact@v2
-        with:
-         name: DEV_RDS_CREDS
-         path: charts-prod/values.yml
+          sudo apt install jq -y;  
+          sed -i "s|\$DEV_RDS_CREDS_U|${{ secrets.RDS_CREDS }}|"
+          sed -i "s|\$DEV_RDS_CREDS_P|${{ secrets.RDS_CREDS }}|"
+          cd ../k8s-prod bash changeValues.sh        
+        working-directory: charts-prod
 
       - name: Deploy to Testing Env GCP Cluster
         run: >
-          cat values.yml;
-          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test; 
-          bash changeTagflask.sh danielpinhas/flask-k8s;
-          bash changeTagflask.sh danielpinhas/flask2-k8s;
-          bash changeTagflask.sh danielpinhas/flask3-k8s;
-          kubectl apply -f service-html.yml;
-          kubectl apply -f flask-prod.yml;
-          kubectl apply -f httpd-deploy-prod.yml;
+          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
+          helm install Gifs-Website-Testing Chart.yml -f values.yml 
           echo 'Deploy Application into Rancher Desktop Completed';
         working-directory: charts-prod
         
@@ -121,18 +110,13 @@ jobs:
             location: "us-central1"
       - name: Activate GCP Service Account
         run: >
-          sudo apt install jq -y;      
-        working-directory: Terraform-Autopilot
+          sudo apt install jq -y; 
+          sed -i "s|\$DEV_RDS_CREDS|${{ secrets.RDS_CREDS }}|"   
+        working-directory: charts-prod
 
-      - name: Generate rds_cred.txt
-        uses: frdrwrt/write-to-file@v1.3
-        with:
-          filepath: charts_prod/rds_cred.txt
-          content: ${{ secrets.RDS_CREDS }}
-          mode: 744
       - name: Deploy to Production Env GCP Cluster
         run: >
-
+          helm install my-release path/to/your/helm/chart -f path/to/your/values.yml
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod; 
           bash changeTagflask.sh danielpinhas/flask-k8s;
           bash changeTagflask.sh danielpinhas/flask2-k8s;
