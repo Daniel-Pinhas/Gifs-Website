@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Function to update the YAML file with the latest tag
 update_yaml_file() {
     local yaml_file="$1"
     local service="$2"
@@ -7,6 +8,7 @@ update_yaml_file() {
     sed -i "s|image:\s*$service:.*|image: $service:$tag_number|" "$yaml_file"
 }
 
+# Check if repository argument is provided
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <repository>"
     exit 1
@@ -27,3 +29,4 @@ if [ -n "$latest_tag" ]; then
 else
     echo "Failed to retrieve latest tag for $repository"
 fi
+
