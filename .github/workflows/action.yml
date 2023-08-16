@@ -61,15 +61,16 @@ jobs:
         with:
             cluster_name: "gifs-website-test"
             location: "us-central1"
+            
       - name: Activate GCP Service Account
         run: >
-          sudo apt-get update
-          sudo apt install jq -y;  
-          sed -i "s|\$DEV_RDS_CREDS_U|$(echo ${{ secrets.RDS_CREDS }})|" values.yml
-          sed -i "s|\$DEV_RDS_CREDS_U|$(echo ${{ secrets.RDS_CREDS }})|" values.yml
-          bash changeValues.sh        
+            sudo apt-get update
+            sudo apt-get install jq -y
+            sed -i "s|\$DEV_RDS_CREDS_U|${{ secrets.RDS_CREDS }}|" values.yml
+            sed -i "s|\$DEV_RDS_CREDS_U|${{ secrets.RDS_CREDS }}|" values.yml
+            bash changeValues.sh
         working-directory: charts-prod
-
+          
       - name: Deploy to Testing Env GCP Cluster
         run: >
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
