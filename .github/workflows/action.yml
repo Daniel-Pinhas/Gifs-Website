@@ -63,7 +63,7 @@ jobs:
             location: "us-central1"
           
       - name: Install jq
-        run: sudo apt-get install jq -y
+        run: sudo apt install jq -y
         working-directory: charts-prod
           
       - name: Modify values.yml with secret
@@ -76,9 +76,7 @@ jobs:
           
       - name: Run changeValues.sh
         run: >
-          chmod +x changeValues.sh && bash changeValues.sh danielpinhas/flask-k8s
-          bash changeValues.sh danielpinhas/flask2-k8s
-          bash changeValues.sh danielpinhas/flask2-k8s
+          chmod +x changeValues.sh && bash changeValues.sh
         working-directory: charts-prod
           
       - name: Deploy to Testing Env GCP Cluster
