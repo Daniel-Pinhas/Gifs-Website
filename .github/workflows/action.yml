@@ -82,6 +82,7 @@ jobs:
       - name: Deploy to Testing Env GCP Cluster
         run: >
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
+          cat values.yml
           helm package . --app-version gifs-website-testing --destination .;
           helm upgrade --install gifs-website-testing ./charts-prod; 
           echo 'Deploy Application into Rancher Desktop Completed';
