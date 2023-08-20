@@ -64,8 +64,8 @@ jobs:
           
       - name: Install Dependencies
         run: >
-          sudo apt install jq -y
-          sudo pip3 install docker
+          sudo apt install jq -y;
+          sudo pip3 install docker;
         working-directory: charts-prod
           
       - name: Modify values.yml with secret
