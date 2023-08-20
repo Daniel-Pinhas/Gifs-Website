@@ -132,7 +132,7 @@ spec:
         - name: html-volume
           configMap:
             name: prod-html-configmap
-            items:
+            items: 
               - key: index.html
                 path: index.html
 
