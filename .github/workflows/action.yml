@@ -62,8 +62,10 @@ jobs:
             cluster_name: "gifs-website-test"
             location: "us-central1"
           
-      - name: Install jq
-        run: sudo apt install jq -y
+      - name: Install Dependencies
+        run: >
+          sudo apt install jq -y
+          sudo pip3 install docker
         working-directory: charts-prod
           
       - name: Modify values.yml with secret
@@ -76,8 +78,7 @@ jobs:
           
       - name: Run changeValues.sh
         run: >
-          chmod +x changeValues.sh && bash changeValues.sh
-          cat values.yml;
+          chmod +x changeTag.py && python3 changeTag.py
         working-directory: charts-prod
           
       - name: Deploy to Testing Env GCP Cluster
