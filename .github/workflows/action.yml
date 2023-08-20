@@ -81,7 +81,6 @@ jobs:
           
       - name: Deploy to Testing Env GCP Cluster
         run: >
-          chmod 600 /home/runner/work/Gifs-Website/Gifs-Website/gha-kubeconfig-83b3fe6b15653b51
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
           helm upgrade --install gifs-website-westing . -f values.yml; 
           echo 'Deploy Application into Rancher Desktop Completed';
