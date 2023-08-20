@@ -81,8 +81,9 @@ jobs:
           
       - name: Deploy to Testing Env GCP Cluster
         run: >
+          chmod 600 /home/runner/work/Gifs-Website/Gifs-Website/gha-kubeconfig-83b3fe6b15653b51
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
-          helm upgrade --install gifs-website-westing Chart.yml -f values.yml; 
+          helm upgrade --install gifs-website-westing . -f values.yml; 
           echo 'Deploy Application into Rancher Desktop Completed';
         working-directory: charts-prod
         
@@ -126,6 +127,7 @@ jobs:
 
       - name: Deploy to Production Env GCP Cluster
         run: >
+          chmod 600 /home/runner/work/Gifs-Website/Gifs-Website/gha-kubeconfig-83b3fe6b15653b51
           helm install my-release path/to/your/helm/chart -f path/to/your/values.yml
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-prod; 
           bash changeTagflask.sh danielpinhas/flask-k8s;
