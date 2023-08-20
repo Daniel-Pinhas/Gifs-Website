@@ -85,7 +85,7 @@ jobs:
           helm package . --destination . --app-version gifs-website-testing;
           helm upgrade --install gifs-website-testing . -f values.yml; 
           echo 'Deploy Application into Rancher Desktop Completed';
-        working-directory: charts-prod
+        working-directory: charts-prod 
         
   Test-Testing-Cluster:
     name: Testing Test-Cluster
