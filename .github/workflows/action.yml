@@ -83,7 +83,7 @@ jobs:
         run: >
           kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
           helm package . --destination . --app-version gifs-website-testing
-          helm upgrade gifs-website-testing . -f values.yml; 
+          helm upgrade gifs-website-testing . --values values.yml; 
           echo 'Deploy Application into Rancher Desktop Completed';
         working-directory: charts-prod
         
