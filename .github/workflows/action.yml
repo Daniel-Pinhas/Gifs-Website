@@ -81,14 +81,14 @@ jobs:
           chmod +x changeTag.py && python3 changeTag.py
         working-directory: charts-prod
           
-      - name: Deploy to Testing Env GCP Cluster
+      - name: Package Helm chart
+        run: helm package . --app-version gifs-website-testing --destination .;
+        working-directory: charts-prod
+      
+      - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
-          kubectl config use-context gke_lofty-dynamics-393510_us-central1_gifs-website-test;
-          helm delete gifs-website-testing --namespace default;
-          helm package . --app-version gifs-website-testing --destination .;
-          helm upgrade --install gifs-website-testing . -f values.yml; 
-          echo 'Deploy Application into Rancher Desktop Completed';
-        working-directory: charts-prod 
+          helm upgrade --install gifs-website-testing . -f values.yml
+        working-directory: charts-prod
         
   Test-Testing-Cluster:
     name: Testing Test-Cluster
