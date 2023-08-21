@@ -88,7 +88,7 @@ jobs:
         run: helm package charts-prod --app-version gifs-website-testing --destination .;
       
       - name: Deploy/Upgrade to Testing Env GCP Cluster
-        run: helm upgrade --install gifs-website-testing . -f values.yml
+        run: helm upgrade --install gifs-website-testing . -f values.yml -n default;
         working-directory: charts-prod
         
   Test-Testing-Cluster:
