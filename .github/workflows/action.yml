@@ -94,7 +94,7 @@ jobs:
       - name: Run Modified ConfigMap
         run: >
           chmod +x updateConfig.py;
-          python3  updateConfig.py
+          python3  updateConfig.py;
         
   Test-Testing-Cluster:
     name: Testing Test-Cluster
