@@ -18,7 +18,7 @@ existing_versions = [ver for ver in available_versions if not version.parse(ver)
 latest_version = str(max(existing_versions, key=version.parse))
 
 # Read the content of the values.yaml file
-with open("values.yaml", "r") as f:
+with open("values.yml", "r") as f:
     content = f.read()
 
 # Replace the tag placeholders with the latest version for the provided repository
@@ -28,5 +28,5 @@ replacement = f"repository: {repository_name}\n    tag: {latest_version}\n"
 content = re.sub(pattern, replacement, content)
 
 # Write the updated content back to the values.yaml file
-with open("values.yaml", "w") as f:
+with open("values.yml", "w") as f:
     f.write(content)
