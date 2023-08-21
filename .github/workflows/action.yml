@@ -81,7 +81,7 @@ jobs:
           chmod +x changeTag.py;
           python3 changeTag.py danielpinhas/flask-k8s; 
           python3 changeTag.py danielpinhas/flask2-k8s;
-          python3 changeTag.py danielpinhas/flask3-k8s; 
+          python3 changeTag.py danielpinhas/flask3-k8s;
         working-directory: charts-prod
           
       - name: Package Helm chart
@@ -90,6 +90,11 @@ jobs:
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: helm upgrade --install gifs-website-testing . -f values.yml;
         working-directory: charts-prod
+
+      - name: Run Modified ConfigMap
+        run: >
+          chmod +x updateConfig.py;
+          python3  updateConfig.py
         
   Test-Testing-Cluster:
     name: Testing Test-Cluster
