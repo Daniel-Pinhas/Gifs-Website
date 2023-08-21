@@ -44,3 +44,20 @@ intermediate_images = [image for image in images if not image.tags]
 for image in intermediate_images:
     client.images.remove(image=image.id, force=True)
     print(f"Successfully deleted intermediate image: {image.id}")
+
+
+
+
+import docker
+import subprocess
+import json
+
+client = docker.from_env()
+
+# Fetch available versions using curl and jq
+response = subprocess.run(["curl", "-s", "https://registry.hub.docker.com/v2/repositories/danielpinhas/flask-k8s/tags/"], stdout=subprocess.PIPE)
+response_json = response.stdout.decode("utf-8")
+available_versions = [tag["name"] for tag in json.loads(response_json)["results"]]
+existing_versions = [float(version) for version in available_versions if version.startswith("1.")]
+latest_version = max(existing_versions)
+print(latest_version)
