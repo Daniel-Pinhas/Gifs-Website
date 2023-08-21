@@ -2,29 +2,24 @@ user_name:
   valueFrom:
     secretKeyRef:
       name: rds-secrets
-      key: $DEV_RDS_CREDS_U
+      key: daniel2
 user_pwd: 
   valueFrom:
     secretKeyRef:
       name: rds-secrets
-      key: $DEV_RDS_CREDS_P
+      key: daniel2
 
 db_url: rds-gifs-db.cih3afqd7fge.us-east-2.rds.amazonaws.com
 
 flask1:
   image:
     repository: danielpinhas/flask-k8s
-    tag: 
-
-
+    tag: 2.0
 flask2:
   image:
     repository: danielpinhas/flask2-k8s
-    tag: 
-
-
+    tag: 2.0
 flask3:
   image:
     repository: danielpinhas/flask3-k8s
-    tag: 
-
+    tag: 2.0
