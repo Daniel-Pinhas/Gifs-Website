@@ -82,12 +82,10 @@ jobs:
         working-directory: charts-prod
           
       - name: Package Helm chart
-        run: helm package . --app-version gifs-website-testing --destination .;
-        working-directory: charts-prod
+        run: helm package charts-prod --app-version gifs-website-testing --destination .;
       
       - name: Deploy/Upgrade to Testing Env GCP Cluster
-        run: >
-          helm upgrade --install gifs-website-testing . -f values.yml
+        run: helm upgrade --install gifs-website-testing . -f values.yml
         working-directory: charts-prod
         
   Test-Testing-Cluster:
