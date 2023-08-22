@@ -93,9 +93,9 @@ jobs:
       - name: Run Modified ConfigMap
         run: >
           sleep 60;
-          chmod +x updateConfig.py;
           python3  updateConfig.py;
-        working-directory: charts-prod
+          kubectl apply -f config.yml;
+        working-directory: k8s-prod
         
   Test-Testing-Cluster:
     name: Testing Test-Cluster
