@@ -24,17 +24,12 @@ spec:
             - containerPort: 5000
           env:
             - name: USER_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets
-                  key: user_name
+              value: {{ .Values.user_name.valueFrom.secretKeyRef.name }}
             - name: USER_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets
-                  key: user_pwd
+              value: {{ .Values.user_pwd.valueFrom.secretKeyRef.name }}
             - name: DB_URL
               value: {{ .Values.db_url }}
+
 
 ---
 apiVersion: apps/v1
@@ -63,15 +58,9 @@ spec:
             - containerPort: 5000
           env:
             - name: USER_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets
-                  key: user_name
+              value: {{ .Values.user_name.valueFrom.secretKeyRef.name }}
             - name: USER_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets
-                  key: user_pwd
+              value: {{ .Values.user_pwd.valueFrom.secretKeyRef.name }}
             - name: DB_URL
               value: {{ .Values.db_url }}
 
@@ -102,15 +91,9 @@ spec:
             - containerPort: 5000
           env:
             - name: USER_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets
-                  key: user_name
+              value: {{ .Values.user_name.valueFrom.secretKeyRef.name }}
             - name: USER_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets
-                  key: user_pwd
+              value: {{ .Values.user_pwd.valueFrom.secretKeyRef.name }}
             - name: DB_URL
               value: {{ .Values.db_url }}
 

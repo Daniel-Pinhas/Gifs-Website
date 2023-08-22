@@ -68,12 +68,11 @@ jobs:
           sudo pip3 install docker;
         working-directory: charts-prod
           
-      - name: Modify values.yml with secret
-        run: sed -i "s|\$DEV_RDS_CREDS_U|${{ secrets.RDS_CREDS }}|" values.yml
-        working-directory: charts-prod
+      - name: Set environment variables
+        run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
 
-      - name: Modify values.yml with secret
-        run: sed -i "s|\$DEV_RDS_CREDS_P|${{ secrets.RDS_CREDS }}|" values.yml
+      - name: Run Python script
+        run: python3 rds.py
         working-directory: charts-prod
           
       - name: Run changeValues.sh
