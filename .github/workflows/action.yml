@@ -26,8 +26,7 @@ jobs:
       - name: Build and Push Flask-1 Image   
         run: >
           pip3 install docker;
-          chmod +x image.py;
-          python3 image.py;
+          python3 manageVersion.py;
           echo 'Build and Push Flask-1 Image Stage Completed'
         working-directory: App/Flask-Project
 
