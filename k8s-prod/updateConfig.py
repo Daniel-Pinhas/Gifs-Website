@@ -4,15 +4,12 @@ import subprocess
 ingress_ips = subprocess.check_output(["kubectl", "describe", "service"]).decode("utf-8")
 ingress_ips = [line.split()[2] for line in ingress_ips.splitlines() if "LoadBalancer Ingress:" in line]
 
-# Use a placeholder to represent the Flask IP in the config.yml file
-# The placeholder can be any unique string that doesn't appear elsewhere in the file
 placeholder_1 = "__FLASK_IP_PLACEHOLDER_1__"
 placeholder_2 = "__FLASK_IP_PLACEHOLDER_2__"
 placeholder_3 = "__FLASK_IP_PLACEHOLDER_3__"
 
-config_path = "templates/config.yml"  # Adjust this path as needed
+config_path = "config.yml"  
 
-# Replace the Flask IPs in the config.yml file with the Ingress IPs
 with open(config_path, "r") as f:
     content = f.read()
 
