@@ -1,5 +1,5 @@
 
-user_name: $DEV_RDS_CREDS_U
+user_name: $DEV_RDS_CREDS_U 
 user_pwd: $DEV_RDS_CREDS_P
 
 db_url: rds-gifs-db.cih3afqd7fge.us-east-2.rds.amazonaws.com
