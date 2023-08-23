@@ -18,7 +18,7 @@ variable "zone" {
 resource "google_container_cluster" "gifs-website-cluster-test" {
   name               = "gifs-website-cluster-test"
   location           = var.zone
-  initial_node_count = 1
+  initial_node_count = 1 
 }
 
 resource "google_container_node_pool" "test_node_pool" {
