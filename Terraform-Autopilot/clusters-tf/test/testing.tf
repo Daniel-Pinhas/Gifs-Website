@@ -15,8 +15,8 @@ variable "zone" {
   default     = "us-central1-a"
 }
 
-resource "google_container_cluster" "test_cluster" {
-  name               = "gifs-website-test"
+resource "google_container_cluster" "gifs-website-cluster-test" {
+  name               = "gifs-website-cluster-test"
   location           = var.zone
   initial_node_count = 1
 }
