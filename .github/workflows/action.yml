@@ -47,8 +47,8 @@ jobs:
     needs: [Versioning-Images]
     runs-on: ubuntu-latest
     env:
-      GKE_CLUSTER: "gifs-website-test"
-      GKE_REGION: "us-central1"
+      GKE_CLUSTER: "gifs-website-cluster-test"
+      GKE_REGION: "us-central1-a"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -59,8 +59,8 @@ jobs:
       - name: Retrieve cluster info for use with kubectl
         uses: google-github-actions/get-gke-credentials@v1
         with:
-            cluster_name: "gifs-website-test"
-            location: "us-central1"
+            cluster_name: "gifs-website-cluster-test"
+            location: "us-central1-a"
           
       - name: Install Dependencies
         run: >
