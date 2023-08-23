@@ -24,7 +24,7 @@ resource "google_container_cluster" "gifs-website-cluster-test" {
 resource "google_container_node_pool" "test_node_pool" {
   name       = "test-node-pool"
   location   = var.zone
-  cluster    = google_container_cluster.test_cluster.name
+  cluster    = google_container_cluster.gifs-website-cluster-test.name
   node_count = 1
 
   autoscaling {
@@ -40,12 +40,12 @@ resource "google_container_node_pool" "test_node_pool" {
 }
 
 output "test_cluster_name" {
-  value       = google_container_cluster.test_cluster.name
+  value       = google_container_cluster.gifs-website-cluster-test.name
   description = "Test Cluster Name"
 }
 
 output "test_cluster_host" {
-  value       = google_container_cluster.test_cluster.endpoint
+  value       = google_container_cluster.gifs-website-cluster-test.endpoint
   description = "Test Cluster IP"
 }
 
