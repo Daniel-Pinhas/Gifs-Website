@@ -66,8 +66,6 @@ jobs:
         run: >
           sudo apt install jq -y;
           sudo pip3 install docker;
-          gcloud components install gke-gcloud-auth-plugin;
-          gcloud container clusters get-credentials gifs-website-cluster-test --region us-central1-a --project lofty-dynamics-393510;
         working-directory: charts-prod
           
       - name: Set environment variables
