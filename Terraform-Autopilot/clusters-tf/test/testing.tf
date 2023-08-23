@@ -1,44 +1,53 @@
 provider "google" {
-  project     = "lofty-dynamics-393510"
-  region      = "us-central1"
   credentials = "/Users/daniel/Documents/DevOps/tkn/lofty-dynamics-393510-2b63cc077c5f.json"
+  project     = "lofty-dynamics-393510"
 }
 
-resource "google_compute_network" "vpc" {
-  name                    = local.network_name
-  auto_create_subnetworks = false
+variable "project_id" {
+  description = "GCP Project ID"
+  type        = string
+  default     = "lofty-dynamics-393510"
 }
 
-locals {
-  network_name = "gifs-website-test-vpc"
-  subnet_name  = "gifs-website-test-subnet"
+variable "zone" {
+  description = "Cluster Zone"
+  type        = string
+  default     = "us-central1-a"
 }
 
-resource "google_compute_subnetwork" "subnet" {
-  name          = local.subnet_name
-  region        = "us-central1"
-  network       = google_compute_network.vpc.self_link
-  ip_cidr_range = "10.10.0.0/24"
+resource "google_container_cluster" "test_cluster" {
+  name               = "test-cluster"
+  location           = var.zone
+  initial_node_count = 1
 }
 
-resource "google_container_cluster" "primary" {
-  name             = "gifs-website-test"
-  location         = "us-central1"
-  network          = google_compute_network.vpc.id
-  subnetwork       = google_compute_subnetwork.subnet.id
-  enable_autopilot = true
-}
+resource "google_container_node_pool" "test_node_pool" {
+  name       = "test-node-pool"
+  location   = var.zone
+  cluster    = google_container_cluster.test_cluster.name
+  node_count = 1
 
-resource "google_compute_firewall" "gifs_website_firewall" {
-  name          = "gifs-website-test"
-  network       = google_compute_network.vpc.self_link
-  source_tags   = ["gifs-website-node"]
-  source_ranges = ["0.0.0.0/0"]
+  autoscaling {
+    min_node_count = 1
+    max_node_count = 5
+  }
 
-  allow {
-    protocol = "tcp"
-    ports    = ["80", "81", "82", "5000", "3306"]
+  node_config {
+    machine_type = "e2-medium"
+    disk_size_gb = 24
+    disk_type    = "pd-standard"
   }
 }
+
+output "test_cluster_name" {
+  value       = google_container_cluster.test_cluster.name
+  description = "Test Cluster Name"
+}
+
+output "test_cluster_host" {
+  value       = google_container_cluster.test_cluster.endpoint
+  description = "Test Cluster IP"
+}
+
 
 
