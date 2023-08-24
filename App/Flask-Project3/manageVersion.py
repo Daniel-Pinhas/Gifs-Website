@@ -1,6 +1,7 @@
 import docker
 import subprocess
 import json
+import re
 
 client = docker.from_env()
 
@@ -11,7 +12,7 @@ available_versions = [tag["name"] for tag in json.loads(response_json)["results"
 
 if available_versions:
     # Filter versions based on the repository name and extract the version part
-    existing_versions = [float(version) for version in available_versions if version.startswith("1.")]
+    existing_versions = [float(version) for version in available_versions if re.match(r"^[1-9]\.", version)]
     latest_version = max(existing_versions)
     next_version = latest_version + 0.1
 else:
