@@ -16,21 +16,21 @@ spec:
               service:
                 name: flask-service-1
                 port:
-                  number: 80
+                  number: 81
           - path: /flask2
             pathType: Prefix
             backend:
               service:
                 name: flask-service-2
                 port:
-                  number: 80
+                  number: 82
           - path: /flask3
             pathType: Prefix
             backend:
               service:
                 name: flask-service-3
                 port:
-                  number: 80
+                  number: 83
 
 ---
 apiVersion: v1
@@ -43,7 +43,7 @@ spec:
     app: flask-1
   ports:
     - protocol: TCP
-      port: 80
+      port: 81
       targetPort: 5000
 
 ---
@@ -57,7 +57,7 @@ spec:
     app: flask-2
   ports:
     - protocol: TCP
-      port: 80
+      port: 82
       targetPort: 5000
 
 ---
@@ -71,7 +71,7 @@ spec:
     app: flask-3
   ports:
     - protocol: TCP
-      port: 80
+      port: 83
       targetPort: 5000
 ---
 apiVersion: v1
