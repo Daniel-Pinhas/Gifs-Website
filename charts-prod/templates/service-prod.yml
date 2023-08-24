@@ -16,7 +16,7 @@ spec:
               service:
                 name: flask-service-1
                 port:
-                  number: 81
+                  number: 81  
           - path: /flask2
             pathType: Prefix
             backend:
