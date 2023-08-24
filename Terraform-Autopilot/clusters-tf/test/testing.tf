@@ -15,6 +15,12 @@ variable "zone" {
   default     = "us-central1-a"
 }
 
+variable "firewall_rule_name" {
+  description = "Name of the existing firewall rule"
+  type        = string
+  default     = "gifs-website"
+}
+
 resource "google_container_cluster" "gifs-website-cluster-test" {
   name               = "gifs-website-cluster-test"
   location           = var.zone
