@@ -13,7 +13,7 @@ variable "zone" {
   description = "Cluster Zone"
   type        = string
   default     = "us-central1-a"
-}
+} 
 
 variable "firewall_rule_name" {
   description = "Name of the existing firewall rule"
