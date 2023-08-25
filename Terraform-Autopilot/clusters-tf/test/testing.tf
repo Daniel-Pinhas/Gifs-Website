@@ -12,7 +12,7 @@ variable "project_id" {
 variable "zone" {
   description = "Cluster Zone"
   type        = string
-  default     = "us-central1-a"
+  default     = "us-central1"
 } 
 
 variable "firewall_rule_name" {
