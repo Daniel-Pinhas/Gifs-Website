@@ -17,6 +17,8 @@ available_versions = [tag["name"] for tag in json.loads(response_json)["results"
 existing_versions = [ver for ver in available_versions if not version.parse(ver).is_prerelease]
 latest_version = str(max(existing_versions, key=version.parse))
 
+latest_version_formatted = latest_version if "." in latest_version else f"{latest_version}.0"
+
 # Read the content of the values.yaml file
 with open("values.yml", "r") as f:
     content = f.read()
@@ -24,7 +26,7 @@ with open("values.yml", "r") as f:
 # Replace the tag placeholders with the latest version for the provided repository
 repository_placeholder = repository_name.replace("/", "\\/")
 pattern = rf"repository:\s+{repository_placeholder}\s+tag:\s+"
-replacement = f"repository: {repository_name}\n    tag: {latest_version}\n"
+replacement = f"repository: {repository_name}\n    tag: {latest_version_formatted}\n"
 content = re.sub(pattern, replacement, content)
 
 # Write the updated content back to the values.yaml file
