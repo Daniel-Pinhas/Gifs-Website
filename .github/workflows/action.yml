@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GKE_CLUSTER: "gifs-website-cluster-test"
-      GKE_REGION: "us-central1-a"
+      GKE_REGION: "us-central1"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -63,7 +63,7 @@ jobs:
         uses: google-github-actions/get-gke-credentials@v1
         with:
             cluster_name: "gifs-website-cluster-test"
-            location: "us-central1-a"
+            location: "us-central1"
           
       - name: Install Dependencies
         run: >
