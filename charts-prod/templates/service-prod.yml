@@ -45,6 +45,8 @@ spec:
     - protocol: TCP
       port: 5001
       targetPort: 5001
+    loadBalancerSourceRanges:
+    - 10.128.0.0/20
 
 ---
 apiVersion: v1
@@ -59,6 +61,8 @@ spec:
     - protocol: TCP
       port: 5002
       targetPort: 5002
+    loadBalancerSourceRanges:
+    - 10.128.0.0/20
 
 ---
 apiVersion: v1
@@ -73,6 +77,8 @@ spec:
     - protocol: TCP
       port: 5003
       targetPort: 5003
+    loadBalancerSourceRanges:
+    - 10.128.0.0/20
 ---
 apiVersion: v1
 kind: Service
