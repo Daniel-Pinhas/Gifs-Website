@@ -1,4 +1,4 @@
-name: Gifs-Website
+name: Gifs-Website 
 
 on:
   pull_request:
