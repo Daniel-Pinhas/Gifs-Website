@@ -15,16 +15,12 @@ variable "zone" {
   default     = "europe-west1"
 } 
 
-variable "firewall_rule_name" {
-  description = "Name of the existing firewall rule"
-  type        = string
-  default     = "gifs-website"
-}
-
 resource "google_container_cluster" "gifs-website-cluster-test" {
   name               = "gifs-website-cluster-test"
   location           = var.zone
   initial_node_count = 1 
+  network            = "projects/lofty-dynamics-393510/global/networks/gifs-website-test"
+  subnetwork         = "projects/lofty-dynamics-393510/regions/europe-west1/subnetworks/gifs-website-test"
 }
 
 resource "google_container_node_pool" "test_node_pool" {
