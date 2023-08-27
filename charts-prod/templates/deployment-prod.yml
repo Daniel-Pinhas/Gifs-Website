@@ -21,7 +21,7 @@ spec:
         - name: flask1
           image: {{ .Values.flask1.image.repository }}:{{ .Values.flask1.image.tag }} 
           ports:
-            - containerPort: 5001
+            - containerPort: 80
           env:
             - name: USER_NAME
               value: {{ .Values.user_name }}
@@ -55,7 +55,7 @@ spec:
         - name: flask2
           image: {{ .Values.flask2.image.repository }}:{{ .Values.flask2.image.tag }}
           ports:
-            - containerPort: 5002
+            - containerPort: 80
           env:
             - name: USER_NAME
               value: {{ .Values.user_name }}
@@ -88,7 +88,7 @@ spec:
         - name: flask3
           image: {{ .Values.flask3.image.repository }}:{{ .Values.flask3.image.tag }}
           ports:
-            - containerPort: 5003
+            - containerPort: 80
           env:
             - name: USER_NAME
               value: {{ .Values.user_name }}
