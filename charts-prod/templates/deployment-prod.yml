@@ -6,14 +6,14 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: flask1
+      app: flask-1
   template:
     metadata:
       labels:
-        app: flask1
+        app: flask-1
     spec:
       containers:
-        - name: flask1
+        - name: flask-1
           image: {{ .Values.flask1.image.repository }}:{{ .Values.flask1.image.tag }} 
           ports:
             - containerPort: 5000
@@ -34,14 +34,14 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: flask2
+      app: flask-2
   template:
     metadata:
       labels:
-        app: flask2
+        app: flask-2
     spec:
       containers:
-        - name: flask2
+        - name: flask-2
           image: {{ .Values.flask2.image.repository }}:{{ .Values.flask2.image.tag }}
           ports:
             - containerPort: 5000
@@ -62,14 +62,14 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: flask3
+      app: flask-3
   template:
     metadata:
       labels:
-        app: flask3
+        app: flask-3
     spec:
       containers:
-        - name: flask3
+        - name: flask-3
           image: {{ .Values.flask3.image.repository }}:{{ .Values.flask3.image.tag }}
           ports:
             - containerPort: 5000
