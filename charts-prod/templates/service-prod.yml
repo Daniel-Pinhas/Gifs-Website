@@ -55,37 +55,3 @@ spec:
       targetPort: 80
   type: LoadBalancer
 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nasa-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: nasa-app
-  template:
-    metadata:
-      labels:
-        app: nasa-app
-    spec:
-      containers:
-        - name: nasa
-          image: razdahan31/gha-pipeline:3.2.15
-          ports:
-            - containerPort: 5000
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nasa-service
-spec:
-  selector:
-    app: nasa-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 5000
-  type: LoadBalancer
