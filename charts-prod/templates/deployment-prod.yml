@@ -4,9 +4,9 @@ metadata:
   name: flask-deployment-1
   labels:
     app: flask1
-    #app.kubernetes.io/managed-by: Helm
-    #meta.helm.sh/release-name: {{ .Release.Name }}
-    #meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 spec:
   replicas: 2
   selector:
@@ -38,9 +38,9 @@ metadata:
   name: flask-deployment-2
   labels:
     app: flask2
-    #app.kubernetes.io/managed-by: Helm
-    #meta.helm.sh/release-name: {{ .Release.Name }}
-    #meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 spec:
   replicas: 2
   selector:
@@ -71,9 +71,9 @@ metadata:
   name: flask-deployment-3
   labels:
     app: flask3
-    #app.kubernetes.io/managed-by: Helm
-    #meta.helm.sh/release-name: {{ .Release.Name }}
-    #meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 spec:
   replicas: 2
   selector:
