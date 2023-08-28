@@ -31,7 +31,7 @@ resource "google_container_node_pool" "test_node_pool" {
 
   autoscaling {
     min_node_count = 1
-    max_node_count = 5
+    max_node_count = 3
   }
 
   node_config {
@@ -52,38 +52,5 @@ output "test_cluster_host" {
 }
 
 
-    app.kubernetes.io/managed-by: Helm
-    meta.helm.sh/release-name: {{ .Release.Name }}
-    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 
 
-    apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: flask-ingress
-  labels:
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /flask-1
-            pathType: Prefix
-            backend:
-              service:
-                name: flask-service-1
-                port:
-                  number: 80
-          - path: /flask-2
-            pathType: Prefix
-            backend:
-              service:
-                name: flask-service-2
-                port:
-                  number: 80
-          - path: /flask-3
-            pathType: Prefix
-            backend:
-              service:
-                name: flask-service-3
-                port:
-                  number: 80
