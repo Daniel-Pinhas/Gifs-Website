@@ -28,6 +28,7 @@ def get_random_url() -> str:
 
 @app.route("/")
 def index():
+    print("Request received!")
     url = get_random_url()
     return render_template("index.html", url=url)
 
