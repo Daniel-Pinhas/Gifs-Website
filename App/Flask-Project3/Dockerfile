@@ -18,7 +18,7 @@ RUN pip install mysql-connector-python
 COPY . .
 
 # Expose port 5000 for the Flask application
-EXPOSE 80
+EXPOSE 5000
 
 # Set the command to run the Flask application
 CMD ["python", "app.py"]
