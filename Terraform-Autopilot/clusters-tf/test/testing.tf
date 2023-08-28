@@ -52,4 +52,6 @@ output "test_cluster_host" {
 }
 
 
-
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
