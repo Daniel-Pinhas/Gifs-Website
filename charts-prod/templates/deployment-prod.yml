@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-deployment-1
-  labels:
-    app: flask1
 spec:
   replicas: 2
   selector:
@@ -27,14 +25,11 @@ spec:
             - name: DB_URL
               value: {{ .Values.db_url }}
 
-
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-deployment-2
-  labels:
-    app: flask2
 spec:
   replicas: 2
   selector:
@@ -63,8 +58,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-deployment-3
-  labels:
-    app: flask3
 spec:
   replicas: 2
   selector:
