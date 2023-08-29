@@ -1,19 +1,23 @@
 import subprocess
-import re
 
 # Get the Ingress IPs
-ingress_ips_output = subprocess.check_output(["kubectl", "get", "service", "--output=json"]).decode("utf-8")
-ingress_ips = re.findall(r"\"ingress\"\:\[.*?\"ip\"\:\"(.*?)\"", ingress_ips_output)
+ingress_ips = subprocess.check_output(["kubectl", "describe", "service"]).decode("utf-8")
+ingress_ips = [line.split()[2] for line in ingress_ips.splitlines() if "LoadBalancer Ingress:" in line]
 
-placeholders = ["__FLASK_IP_PLACEHOLDER_1__", "__FLASK_IP_PLACEHOLDER_2__", "__FLASK_IP_PLACEHOLDER_3__", "__FLASK_IP_PLACEHOLDER_4__"]
-config_path = "prod.sh"
+placeholder_1 = "__FLASK_IP_PLACEHOLDER_1__"
+placeholder_2 = "__FLASK_IP_PLACEHOLDER_2__"
+placeholder_3 = "__FLASK_IP_PLACEHOLDER_3__"
+placeholder_4 = "__FLASK_IP_PLACEHOLDER_4__"
+
+config_path = "test.sh"  
 
 with open(config_path, "r") as f:
     content = f.read()
 
-for i, placeholder in enumerate(placeholders):
-    if i < len(ingress_ips):
-        content = content.replace(f"http://{placeholder}:80", f"http://{ingress_ips[i]}:80")
+content = content.replace(f"http://{placeholder_1}:80", f"http://{ingress_ips[0]}:80")
+content = content.replace(f"http://{placeholder_2}:80", f"http://{ingress_ips[1]}:80")
+content = content.replace(f"http://{placeholder_3}:80", f"http://{ingress_ips[2]}:80")
+content = content.replace(f"http://{placeholder_4}:80", f"http://{ingress_ips[3]}:80")
 
 with open(config_path, "w") as f:
     f.write(content)
