@@ -112,8 +112,10 @@ jobs:
           kubectl apply -f config.yml;
         working-directory: k8s-prod
 
-      - name: Run Python script
-        run: python3 updateTest.py;      
+      - name: Test-Testing-Cluster
+        run: >
+          python3 updateTest.py; 
+          bash prod.sh;     
         working-directory: tests
         
   Test-Testing-Cluster:
