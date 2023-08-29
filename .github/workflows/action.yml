@@ -78,7 +78,7 @@ jobs:
         run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
 
       - name: Run Python script
-        run: python3 rds.py
+        run: python3 rds.py;
         working-directory: charts-prod
           
       - name: Run changeValues.sh
