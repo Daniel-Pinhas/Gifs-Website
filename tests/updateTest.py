@@ -6,7 +6,7 @@ ingress_ips_output = subprocess.check_output(["kubectl", "get", "service", "--ou
 ingress_ips = re.findall(r"\"ingress\"\:\[.*?\"ip\"\:\"(.*?)\"", ingress_ips_output)
 
 placeholders = ["__FLASK_IP_PLACEHOLDER_1__", "__FLASK_IP_PLACEHOLDER_2__", "__FLASK_IP_PLACEHOLDER_3__", "__FLASK_IP_PLACEHOLDER_4__"]
-config_path = "test.sh"
+config_path = "prod.sh"
 
 with open(config_path, "r") as f:
     content = f.read()
