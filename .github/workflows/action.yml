@@ -101,6 +101,7 @@ jobs:
           sleep 60;
           python3  updateConfig.py;
           kubectl apply -f config.yml;
+          cd ../tests && bash test.sh;
         working-directory: k8s-prod
         
   Test-Testing-Cluster:
@@ -113,7 +114,6 @@ jobs:
       - name: Test Testing Server
         run: >
           python3 updateTest.py;
-          bash test.sh;
           echo Testing Test-Server Stage Completed;
         working-directory: tests
 
