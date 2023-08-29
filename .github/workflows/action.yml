@@ -23,9 +23,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
+      - name: Set environment variables
+        run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
+
       - name: Build and Push Flask-1 Image   
         run: >
           pip3 install docker;
+          python3 rds.py;
           chmod +x manageVersion.py;
           python3 manageVersion.py;
           echo 'Build and Push Flask-1 Image Stage Completed'
@@ -33,14 +37,14 @@ jobs:
 
       - name: Build and Push Flask-2 Image
         run: >
-          chmod +x manageVersion.py;
+          python3 rds.py;
           python3 manageVersion.py;
           echo 'Build and Push Flask-2 Image Stage Completed'
         working-directory: App/Flask-Project2
 
       - name: Build and Push Flask-3 Image
         run: >
-          chmod +x manageVersion.py;
+          python3 rds.py;
           python3 manageVersion.py;
           echo 'Build and Push Flask-3 Image Stage Completed'
         working-directory: App/Flask-Project3
@@ -109,6 +113,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Test Testing Server
         run: >
+          python3 updateTest.py;
           bash test.sh;
           echo Testing Test-Server Stage Completed;
         working-directory: tests

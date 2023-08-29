@@ -8,8 +8,8 @@ app = Flask(__name__)
 def get_random_url() -> str:
     try:
         config = {
-            'user': 'daniel2',
-            'password': 'daniel2',
+            'user': '$DEV_RDS_CREDS_U',
+            'password': '$DEV_RDS_CREDS_P',
             'host': 'rds-gifs-db.cih3afqd7fge.us-east-2.rds.amazonaws.com',
             'port': '3306',
             'database': 'devopsroles'
