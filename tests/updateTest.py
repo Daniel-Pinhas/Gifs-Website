@@ -7,7 +7,7 @@ ingress_ips = [line.split()[2] for line in ingress_ips.splitlines() if "LoadBala
 placeholder_1 = "__FLASK_IP_PLACEHOLDER_1__"
 placeholder_2 = "__FLASK_IP_PLACEHOLDER_2__"
 placeholder_3 = "__FLASK_IP_PLACEHOLDER_3__"
-placeholder_4 = "__FLASK_IP_PLACEHOLDER_TEST__"
+placeholder_4 = "__FLASK_IP_PLACEHOLDER_4__"
 
 config_path = "test.sh"  
 
@@ -22,4 +22,4 @@ content = content.replace(f"http://{placeholder_4}:80", f"http://{ingress_ips[3]
 with open(config_path, "w") as f:
     f.write(content)
 
-print("Ingress IPs inserted in config.yml successfully.")
+print("Ingress IPs inserted in test.sh successfully.")
