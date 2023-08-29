@@ -30,7 +30,6 @@ jobs:
         run: >
           pip3 install docker;
           python3 rds.py;
-          chmod +x manageVersion.py;
           python3 manageVersion.py;
           echo 'Build and Push Flask-1 Image Stage Completed'
         working-directory: App/Flask-Project
@@ -139,6 +138,7 @@ jobs:
             location: "europe-west1"
       - name: Activate GCP Service Account
         run: >
+          exit 1
           sudo apt install jq -y; 
           sed -i "s|\$DEV_RDS_CREDS|${{ secrets.RDS_CREDS }}|"   
         working-directory: charts-prod
