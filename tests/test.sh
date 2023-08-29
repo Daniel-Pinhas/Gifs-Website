@@ -4,14 +4,14 @@
 IPflask1='__FLASK_IP_PLACEHOLDER_1__:80'
 IPflask2='__FLASK_IP_PLACEHOLDER_2__:80'
 IPflask3='__FLASK_IP_PLACEHOLDER_3__:80'
-IPtest='__FLASK_IP_PLACEHOLDER_TEST__:80'
+IPflask4='__FLASK_IP_PLACEHOLDER_4__:80'
 
 
 # Define the Flask application URL
 
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPtest")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPflask4")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
