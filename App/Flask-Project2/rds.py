@@ -11,5 +11,5 @@ file_content = file_content.replace("$DEV_RDS_CREDS_U", rds_creds)
 file_content = file_content.replace("$DEV_RDS_CREDS_P", rds_creds)
 
 # Write the modified content back to the file
-with open("values.yml", "w") as f:
+with open("app.py", "w") as f:
     f.write(file_content)
