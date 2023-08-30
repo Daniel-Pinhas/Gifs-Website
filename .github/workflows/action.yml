@@ -149,7 +149,7 @@ jobs:
     needs: [Test-Testing-Cluster]
     runs-on: ubuntu-latest
     env:
-      GKE_CLUSTER: "gifs-website-prod"
+      GKE_CLUSTER: "gifs-website-cluster-prod"
       GKE_REGION: "europe-west1"
     steps:
       - name: Checkout code
