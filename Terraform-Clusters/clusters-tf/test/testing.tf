@@ -42,31 +42,6 @@ resource "google_container_node_pool" "test_node_pool" {
 }
 
 
-resource "google_container_cluster" "gifs-website-cluster-prod" {
-  name               = "gifs-website-cluster-prod"
-  location           = var.zone
-  initial_node_count = 1 
-  network            = "projects/lofty-dynamics-393510/global/networks/gifs-website-prod"
-  subnetwork         = "projects/lofty-dynamics-393510/regions/europe-west1/subnetworks/gifs-website-prod"
-}
-
-resource "google_container_node_pool" "prod_node_pool" {
-  name       = "prod-node-pool"
-  location   = var.zone
-  cluster    = google_container_cluster.gifs-website-cluster-prod.name
-  node_count = 1
-
-  autoscaling {
-    min_node_count = 1
-    max_node_count = 3
-  }
-
-  node_config {
-    machine_type = "e2-micro"
-    disk_size_gb = 12
-    disk_type    = "pd-standard"
-  }
-}
 
 
 
