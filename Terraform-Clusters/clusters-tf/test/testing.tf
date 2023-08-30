@@ -36,7 +36,7 @@ resource "google_container_node_pool" "test_node_pool" {
 
   node_config {
     machine_type = "e2-micro"
-    disk_size_gb = 24
+    disk_size_gb = 12
     disk_type    = "pd-standard"
   }
 }
