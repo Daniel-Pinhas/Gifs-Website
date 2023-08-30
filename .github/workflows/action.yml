@@ -111,21 +111,33 @@ jobs:
           python3  updateConfig.py;
           kubectl apply -f config.yml;
         working-directory: k8s-prod
-
-      - name: Test-Testing-Cluster
-        run: >
-          python3 updateTest.py; 
-          bash prod.sh;     
-        working-directory: tests
         
   Test-Testing-Cluster:
-    name: Testing Test-Cluster
+    name: Testing-Cluster
+    needs: [Versioning-Images]
     runs-on: ubuntu-latest
-    needs: [GKE-Setup-Testing-Cluster]
+    env:
+      GKE_CLUSTER: "gifs-website-cluster-test"
+      GKE_REGION: "europe-west1"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Test Testing Server
+      - name: Setup GCloud CLI
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIAL }}
+      - name: Retrieve cluster info for use with kubectl
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+            cluster_name: "gifs-website-cluster-test"
+            location: "europe-west1"
+
+      - name: Test-Testing-Cluster
+        run: >
+          python3 updateTest.py;      
+        working-directory: tests   
+
+      - name: Install Dependencies
         run: >
           cat prod.sh;
           bash prod.sh;
