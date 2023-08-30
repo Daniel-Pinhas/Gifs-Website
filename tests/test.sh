@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Define the Flask application URLs
-IPflask1='http://FLASK_IP_PLACEHOLDER_1:80'
-IPflask2='http://FLASK_IP_PLACEHOLDER_2:80'
-IPflask3='http://FLASK_IP_PLACEHOLDER_3:80'
-IPtest='http://FLASK_IP_PLACEHOLDER_PROD:80'
+IPflask1='http://FLASK_IP_PLACEHOLDER_1'
+IPflask2='http://FLASK_IP_PLACEHOLDER_2'
+IPflask3='http://FLASK_IP_PLACEHOLDER_3'
+IPtest='http://FLASK_IP_PLACEHOLDER_PROD'
 
 
 # Define the Flask application URL
