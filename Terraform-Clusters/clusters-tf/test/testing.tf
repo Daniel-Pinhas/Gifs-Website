@@ -50,8 +50,8 @@ resource "google_container_cluster" "gifs-website-cluster-prod" {
   subnetwork         = "projects/lofty-dynamics-393510/regions/europe-west1/subnetworks/gifs-website-prod"
 }
 
-resource "google_container_node_pool" "test_node_pool" {
-  name       = "test-node-pool"
+resource "google_container_node_pool" "prod_node_pool" {
+  name       = "prod-node-pool"
   location   = var.zone
   cluster    = google_container_cluster.gifs-website-cluster-prod.name
   node_count = 1
