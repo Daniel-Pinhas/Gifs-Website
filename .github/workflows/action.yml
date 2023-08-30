@@ -132,12 +132,12 @@ jobs:
             cluster_name: "gifs-website-cluster-test"
             location: "europe-west1"
 
-      - name: Test-Testing-Cluster
+      - name: Config Test Script
         run: >
-          python3 updateTest.py;      
+          bash ingressIP.sh;      
         working-directory: tests   
 
-      - name: Install Dependencies
+      - name: Test-Testing-Cluster
         run: >
           cat prod.sh;
           bash prod.sh;
