@@ -11,7 +11,7 @@ IPtest='http://FLASK_IP_PLACEHOLDER_PROD'
 
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://IPtest")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPtest")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
@@ -23,7 +23,7 @@ fi
 
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://IPflask1")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http:///$IPflask1")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
@@ -35,7 +35,7 @@ fi
 
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://IPflask2")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPflask2")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
@@ -47,7 +47,7 @@ fi
 
 sleep 10
 # Make a GET request to the Flask application
-response=$(curl -s -o /dev/null -w "%{http_code}" "http://IPflask3")
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPflask3")
 
 # Check the HTTP response code
 if [ "$response" == "200" ]; then
