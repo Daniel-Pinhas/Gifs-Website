@@ -20,7 +20,7 @@ resource "google_container_cluster" "gifs-website-cluster-prod" {
   location           = var.zone
   initial_node_count = 1 
   network            = "projects/lofty-dynamics-393510/global/networks/gifs-website-prod"
-  subnetwork         = "projects/lofty-dynamics-393510/regions/europe-west1/subnetworks/gifs-website-prod"
+  subnetwork         = "projects/lofty-dynamics-393510/regions/us-central1/subnetworks/gifs-website-prod"
 }
 
 resource "google_container_node_pool" "prod_node_pool" {
