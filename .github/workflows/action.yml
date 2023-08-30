@@ -114,7 +114,7 @@ jobs:
         
   Test-Testing-Cluster:
     name: Testing-Cluster
-    needs: [Versioning-Images]
+    needs: [GKE-Setup-Testing-Cluster]
     runs-on: ubuntu-latest
     env:
       GKE_CLUSTER: "gifs-website-cluster-test"
