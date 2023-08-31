@@ -1,5 +1,9 @@
 DevOps-Projects/Pipeline-K8S/K8S-YAML/mysql-secret.yml
-/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/test/.terraform.lock.hcl
-/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/test/.terraform
-/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/prod/.terraform
-/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Autopilot/clusters-tf/prod/.terraform.lock.hcl
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/test/.terraform.lock.hcl
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/prod/terraform.tfstate.backup
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/test/terraform.tfstate
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/test/.terraform
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/prod/.terraform
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/prod/.terraform.lock.hcl
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/prod/terraform.tfstate
+/Users/daniel/Documents/DevOps/Gifs-Website/Terraform-Clusters/prod/terraform.tfstate.backup
