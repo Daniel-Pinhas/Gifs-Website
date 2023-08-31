@@ -1,35 +1,58 @@
 #!/bin/bash
 
 # Define the Flask application URLs
-FLASK_URL="__FLASK_IP_PLACEHOLDER_1__:80"
-FLASK_URL="__FLASK_IP_PLACEHOLDER_2__:80"
-FLASK_URL="__FLASK_IP_PLACEHOLDER_3__:80"
-FLASK_URL="__FLASK_IP_PLACEHOLDER_4__:80"
+IPflask1='http://FLASK_IP_PLACEHOLDER_1'
+IPflask2='http://FLASK_IP_PLACEHOLDER_2'
+IPflask3='http://FLASK_IP_PLACEHOLDER_3'
+IPprod='http://FLASK_IP_PLACEHOLDER_PROD'
 
-# Define the sleep duration
-SLEEP_DURATION=10
 
-# Helper function to check Flask application status
-check_flask_status() {
-    sleep $SLEEP_DURATION
-    response=$(curl -s -o /dev/null -w "%{http_code}" "$FLASK_URL")
-    
-    if [ "$response" == "200" ]; then
-        echo "Flask application at $FLASK_URL is running successfully."
-    else
-        echo "Flask application at $FLASK_URL is not running. HTTP response code: $response"
-        exit 1
-    fi
-}
+# Define the Flask application URL
 
-# Check status for each Flask application
-check_flask_status
+sleep 10
+# Make a GET request to the Flask application
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPprod")
 
-FLASK_URL="__FLASK_IP_PLACEHOLDER_2__:80"
-check_flask_status
+# Check the HTTP response code
+if [ "$response" == "200" ]; then
+    echo "Flask application is running successfully."
+else
+    echo "Flask application is not running. HTTP response code: $response"
+    exit 1
+fi
 
-FLASK_URL="__FLASK_IP_PLACEHOLDER_3__:80"
-check_flask_status
+sleep 10
+# Make a GET request to the Flask application
+response=$(curl -s -o /dev/null -w "%{http_code}" "http:///$IPflask1")
 
-FLASK_URL="__FLASK_IP_PLACEHOLDER_4__:80"
-check_flask_status
+# Check the HTTP response code
+if [ "$response" == "200" ]; then
+    echo "Flask application is running successfully."
+else
+    echo "Flask application is not running. HTTP response code: $response"
+    exit 1
+fi
+
+sleep 10
+# Make a GET request to the Flask application
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPflask2")
+
+# Check the HTTP response code
+if [ "$response" == "200" ]; then
+    echo "Flask application is running successfully."
+else
+    echo "Flask application is not running. HTTP response code: $response"
+    exit 1
+fi
+
+sleep 10
+# Make a GET request to the Flask application
+response=$(curl -s -o /dev/null -w "%{http_code}" "http://$IPflask3")
+
+# Check the HTTP response code
+if [ "$response" == "200" ]; then
+    echo "Flask application is running successfully."
+else
+    echo "Flask application is not running. HTTP response code: $response"
+    exit 1
+fi
