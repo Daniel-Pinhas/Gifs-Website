@@ -140,9 +140,15 @@ jobs:
       - name: Test-Testing-Cluster
         run: >
           bash test.sh;
-          echo Testing Test-Server Stage Completed;
         working-directory: tests
 
+      - name: Test-Testing-Cluster
+        run: >
+          kubectl delete deploy --all
+          kubectl delete svc --all
+          echo Testing Test-Server Stage Completed;
+        
+       
   GKE-Setup-Production-Cluster:
     name: Setup the GKE-Prod-Cluster
     needs: [Test-Testing-Cluster]
