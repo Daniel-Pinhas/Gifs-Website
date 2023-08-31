@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: test-html-configmap
+  name: prod-html-configmap
 data:
   index.html: |
     <html>
@@ -85,19 +85,19 @@ data:
         <section id="dogs">
             <h2>Dogs Gifs</h2>
             <p>Click the button below to explore Dogs Gifs:</p>
-            <button onclick="window.location.href='http://172.29.88.252:30100'">Explore Dogs Gifs</button>
+            <button onclick="window.location.href='http://__FLASK_IP_PLACEHOLDER_1__:80'">Explore Dogs Gifs</button>
         </section>
 
         <section id="classmates">
             <h2>Classmates Gifs</h2>
             <p>Click the button below to explore Classmates Gifs:</p>
-            <button onclick="window.location.href='http://172.29.88.252:30200'">Explore Classmates Gifs</button>
+            <button onclick="window.location.href='http://__FLASK_IP_PLACEHOLDER_2__:80'">Explore Classmates Gifs</button>
         </section>
 
         <section id="alpacas">
             <h2>Alpacas Gifs</h2>
             <p>Click the button below to explore Alpacas Gifs:</p>
-            <button onclick="window.location.href='http://172.29.88.252:30300'">Explore Alpacas Gifs</button>
+            <button onclick="window.location.href='http://__FLASK_IP_PLACEHOLDER_3__:80'">Explore Alpacas Gifs</button>
         </section>
 
         <footer>
@@ -105,51 +105,3 @@ data:
         </footer>
     </body>
     </html>
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: test-httpd-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: httpd
-  template:
-    metadata:
-      labels:
-        app: httpd
-    spec:
-      containers:
-        - name: httpd
-          image: httpd:2.4
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: html-volume
-              mountPath: /usr/local/apache2/htdocs
-      volumes:
-        - name: html-volume
-          configMap:
-            name: test-html-configmap
-            items:
-              - key: index.html
-                path: index.html
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: test-httpd-service
-spec:
-  type: NodePort
-  selector:
-    app: httpd
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 32000
-
-
