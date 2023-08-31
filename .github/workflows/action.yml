@@ -144,8 +144,8 @@ jobs:
 
       - name: Test-Testing-Cluster
         run: >
-          kubectl delete deploy --all
-          kubectl delete svc --all
+          kubectl delete deploy --all;
+          kubectl delete svc --all;
           echo Testing Test-Server Stage Completed;
         
        
