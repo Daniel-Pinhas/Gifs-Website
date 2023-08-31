@@ -99,10 +99,10 @@ jobs:
         working-directory: charts-test
           
       - name: Package Helm chart
-        run: helm package charts-test --app-version gifs-website-test --destination .;
+        run: helm package charts-test --app-version gifs-website-testing --destination .;
       
       - name: Deploy/Upgrade to Testing Env GCP Cluster
-        run: helm upgrade --install gifs-website-test . -f values.yml;
+        run: helm upgrade --install gifs-website-testing . -f values.yml;
         working-directory: charts-test
 
       - name: Run Modified ConfigMap
