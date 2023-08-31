@@ -4,7 +4,7 @@
 IPflask1='http://FLASK_IP_PLACEHOLDER_1'
 IPflask2='http://FLASK_IP_PLACEHOLDER_2'
 IPflask3='http://FLASK_IP_PLACEHOLDER_3'
-IPtest='http://FLASK_IP_PLACEHOLDER_PROD'
+IPtest='http://FLASK_IP_PLACEHOLDER_TEST'
 
 
 # Define the Flask application URL
