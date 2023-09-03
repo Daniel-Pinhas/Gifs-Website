@@ -130,6 +130,7 @@ jobs:
           echo "::set-output name=new_version::$NEW_VERSION"
           echo "Updating Chart.yaml with new version..."
           yq eval ".version = \"$NEW_VERSION\"" -i Chart.yaml
+          echo $NEW_VERSION
         shell: bash
         working-directory: charts-test
 
