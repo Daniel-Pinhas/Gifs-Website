@@ -143,6 +143,7 @@ jobs:
         run: >
           yq eval ".version = \"$NEW_VERSION\"" -i Chart.yaml;
           gsutil cp gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts/
+        working-directory: charts-test
    
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
