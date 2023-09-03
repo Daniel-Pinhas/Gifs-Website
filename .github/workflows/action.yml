@@ -100,14 +100,15 @@ jobs:
         
       - name: Read current Helm chart version
         id: read-version
-        run: >
-          VERSION=$(yq eval '.version' charts-test/Chart.yaml)
-          echo "::set-output name=version::${VERSION}"
+        run: |
+          CURRENT_VERSION=$(yq eval '.version' Chart.yaml)
+          echo "::set-output name=version::${CURRENT_VERSION}"
         shell: bash
+        working-directory: charts-test
 
       - name: Increment Helm chart version
         id: increment-version
-        run: >
+        run: |
           CURRENT_VERSION="${{ steps.read-version.outputs.version }}"
           IFS='.' read -ra PARTS <<< "$CURRENT_VERSION"
           PARTS[1]=$((${PARTS[1]}+1))
@@ -120,7 +121,7 @@ jobs:
           NEW_VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}"
           echo "::set-output name=new_version::${NEW_VERSION}"
           echo "Updating Chart.yaml with new version..."
-          yq eval ".version = \"${NEW_VERSION}\"" -i charts-test/Chart.yaml
+          yq eval ".version = \"${NEW_VERSION}\"" -i Chart.yaml
         shell: bash
         working-directory: charts-test
 
