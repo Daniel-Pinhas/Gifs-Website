@@ -111,13 +111,15 @@ jobs:
         run: >
           CURRENT_VERSION="${{ steps.read-version.outputs.version }}"
           IFS='.' read -ra PARTS <<< "$CURRENT_VERSION"
+          if [ "${#PARTS[@]}" -lt 3 ]; then
+            echo "Invalid version format: $CURRENT_VERSION"
+            exit 1
+          fi
           PARTS[1]=$((${PARTS[1]}+1))
-
           if [ ${PARTS[1]} -eq 10 ]; then
             PARTS[0]=$((${PARTS[0]}+1))
             PARTS[1]=0
           fi
-
           NEW_VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}"
           echo "::set-output name=new_version::${NEW_VERSION}"
           echo "Updating Chart.yaml with new version..."
