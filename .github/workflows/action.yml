@@ -136,8 +136,8 @@ jobs:
       - name: Package Helm chart
         run: >
           NEW_VERSION="${{ steps.increment-version.outputs.new_version }}";
-          helm package charts-test --app-version gifs-website-${NEW_VERSION} --destination .;
-      
+          helm package charts-test --app-version "gifs-website-$NEW_VERSION" --destination .;
+        
       - name: Push Helm chart to GCS bucket
         run: >
           gsutil auth list;
