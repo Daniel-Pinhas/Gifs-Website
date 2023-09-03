@@ -99,44 +99,13 @@ jobs:
         working-directory: charts-test
         
       - name: Read current Helm chart version
-        id: read-version
         run: >
-          CURRENT_VERSION=$(yq eval '.version' Chart.yaml)
-          echo "::set-output name=version::${CURRENT_VERSION}"
-        shell: bash
-        working-directory: charts-test
-
-      - name: Increment Helm chart version
-        id: increment-version
-        run: >
-          CURRENT_VERSION="${{ steps.read-version.outputs.version }}"
-          IFS='.' read -ra PARTS <<< "$CURRENT_VERSION"
-          
-          if [ "${#PARTS[@]}" -lt 3 ]; then
-          echo "Invalid version format: $CURRENT_VERSION"
-          exit 1
-          fi
-          
-          # Increment the second part (minor version)
-          PARTS[1]=$((${PARTS[1]}+1))
-          
-          # Check if the second part reached 10 and increment the first part
-          if [ ${PARTS[1]} -eq 10 ]; then
-            PARTS[0]=$((${PARTS[0]}+1))
-            PARTS[1]=0
-          fi
-          
-          NEW_VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}"
-          echo "::set-output name=new_version::$NEW_VERSION"
-          echo "Updating Chart.yaml with new version..."
-          yq eval ".version = \"$NEW_VERSION\"" -i Chart.yaml
-          echo $NEW_VERSION
-        shell: bash
-        working-directory: charts-test
+          python3 increment_version.py;
+        continue-on-error: true 
 
       - name: Package Helm chart
         run: >
-          NEW_VERSION="${{ steps.increment-version.outputs.new_version }}";
+          NEW_VERSION="${{ env.Updated-Version }}";  
           helm package charts-test --app-version "gifs-website-$NEW_VERSION" --destination .;
         
       - name: Push Helm chart to GCS bucket
