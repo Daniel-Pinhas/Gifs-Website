@@ -100,7 +100,7 @@ jobs:
         
       - name: Read current Helm chart version
         run: >
-          python3 increment_version.py;
+          python3 helmVersion.py;
         continue-on-error: true 
 
       - name: Package Helm chart
