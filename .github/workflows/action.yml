@@ -83,7 +83,7 @@ jobs:
           sudo pip3 install docker;
         working-directory: charts-test
           
-      - name: Set environment variables
+      - name:  Set environment variables
         run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
 
       - name: Run Python script
@@ -97,12 +97,47 @@ jobs:
           python3 changeTag.py danielpinhas/flask2-k8s;
           python3 changeTag.py danielpinhas/flask3-k8s;
         working-directory: charts-test
-          
+        
+      - name: Read current Helm chart version
+        id: read-version
+        run: >
+          VERSION=$(yq eval '.version' charts-test/Chart.yaml)
+          echo "::set-output name=version::${VERSION}"
+        shell: bash
+
+      - name: Increment Helm chart version
+        id: increment-version
+        run: >
+          CURRENT_VERSION="${{ steps.read-version.outputs.version }}"
+          IFS='.' read -ra PARTS <<< "$CURRENT_VERSION"
+          PARTS[1]=$((${PARTS[1]}+1))
+
+          if [ ${PARTS[1]} -eq 10 ]; then
+            PARTS[0]=$((${PARTS[0]}+1))
+            PARTS[1]=0
+          fi
+
+          NEW_VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}"
+          echo "::set-output name=new_version::${NEW_VERSION}"
+          echo "Updating Chart.yaml with new version..."
+          yq eval ".version = \"${NEW_VERSION}\"" -i charts-test/Chart.yaml
+        shell: bash
+        working-directory: charts-test
+
       - name: Package Helm chart
-        run: helm package charts-test --app-version gifs-website-testing --destination .;
+        run: |
+          NEW_VERSION="${{ steps.increment-version.outputs.new_version }}";
+          helm package charts-test --app-version gifs-website-${NEW_VERSION} --destination .;
       
+      - name: Push Helm chart to GCS bucket
+        run: |
+          NEW_VERSION="${{ steps.increment-version.outputs.new_version }}"
+          gsutil cp charts-test/gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts/
+   
       - name: Deploy/Upgrade to Testing Env GCP Cluster
-        run: helm upgrade --install gifs-website-testing . -f values.yml;
+        run: |
+          NEW_VERSION="${{ steps.increment-version.outputs.new_version }}"
+          helm upgrade --install gifs-website-${NEW_VERSION} . -f values.yml;
         working-directory: charts-test
 
       - name: Run Modified ConfigMap
@@ -147,6 +182,7 @@ jobs:
           kubectl delete deploy --all;
           kubectl delete svc --all;
           echo Testing Test-Server Stage Completed;
+          exit 1;
         
        
   GKE-Setup-Production-Cluster:
