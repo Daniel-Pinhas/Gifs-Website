@@ -141,9 +141,8 @@ jobs:
         
       - name: Push Helm chart to GCS bucket
         run: >
-          gsutil auth list;
-          NEW_VERSION="${{ steps.increment-version.outputs.new_version }}";
-          gsutil cp gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts/;
+          yq eval ".version = \"$NEW_VERSION\"" -i Chart.yaml;
+          gsutil cp gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts/
    
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
