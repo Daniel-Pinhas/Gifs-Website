@@ -100,7 +100,7 @@ jobs:
         
       - name: Read current Helm chart version
         id: read-version
-        run: |
+        run: >
           CURRENT_VERSION=$(yq eval '.version' Chart.yaml)
           echo "::set-output name=version::${CURRENT_VERSION}"
         shell: bash
@@ -108,35 +108,31 @@ jobs:
 
       - name: Increment Helm chart version
         id: increment-version
-        run: |
-          CURRENT_VERSION="${{ steps.read-version.outputs.version }}"
-          IFS='.' read -ra PARTS <<< "$CURRENT_VERSION"
-          PARTS[1]=$((${PARTS[1]}+1))
-
-          if [ ${PARTS[1]} -eq 10 ]; then
-            PARTS[0]=$((${PARTS[0]}+1))
-            PARTS[1]=0
-          fi
-
-          NEW_VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}"
-          echo "::set-output name=new_version::${NEW_VERSION}"
-          echo "Updating Chart.yaml with new version..."
-          yq eval ".version = \"${NEW_VERSION}\"" -i Chart.yaml
+        run: >
+          CURRENT_VERSION="${{ steps.read-version.outputs.version }}";
+          IFS='.' read -ra PARTS <<< "$CURRENT_VERSION";
+          PARTS[2]=$((${PARTS[2]}+1));
+          
+          NEW_VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}";
+          echo "::set-output name=new_version::${NEW_VERSION}";
+          echo "Updating Chart.yaml with new version...";
+            yq eval ".version = \"${NEW_VERSION}\"" -i Chart.yaml;
         shell: bash
         working-directory: charts-test
 
       - name: Package Helm chart
-        run: |
+        run: >
           NEW_VERSION="${{ steps.increment-version.outputs.new_version }}";
           helm package charts-test --app-version gifs-website-${NEW_VERSION} --destination .;
       
       - name: Push Helm chart to GCS bucket
-        run: |
+        run: >
           NEW_VERSION="${{ steps.increment-version.outputs.new_version }}"
-          gsutil cp charts-test/gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts/
+          gsutil cp gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts/
+        working-directory: charts-test
    
       - name: Deploy/Upgrade to Testing Env GCP Cluster
-        run: |
+        run: >
           NEW_VERSION="${{ steps.increment-version.outputs.new_version }}"
           helm upgrade --install gifs-website-${NEW_VERSION} . -f values.yml;
         working-directory: charts-test
