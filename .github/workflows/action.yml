@@ -106,6 +106,7 @@ jobs:
         shell: bash
         working-directory: charts-test
 
+        
       - name: Increment Helm chart version
         id: increment-version
         run: >
@@ -116,10 +117,10 @@ jobs:
           NEW_VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}";
           echo "::set-output name=new_version::${NEW_VERSION}";
           echo "Updating Chart.yaml with new version...";
-            yq eval ".version = \"${NEW_VERSION}\"" -i Chart.yaml;
+          yq eval ".version = \"${NEW_VERSION}\"" -i Chart.yaml;
         shell: bash
         working-directory: charts-test
-
+      
       - name: Package Helm chart
         run: >
           NEW_VERSION="${{ steps.increment-version.outputs.new_version }}";
