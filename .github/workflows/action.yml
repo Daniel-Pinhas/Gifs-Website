@@ -112,10 +112,9 @@ jobs:
           CURRENT_VERSION="${{ steps.read-version.outputs.version }}"
           IFS='.' read -ra PARTS <<< "$CURRENT_VERSION"
           
-          # Check if the version format is valid (at least three parts: major, minor, patch)
           if [ "${#PARTS[@]}" -lt 3 ]; then
-            echo "Invalid version format: $CURRENT_VERSION"
-            exit 1
+          echo "Invalid version format: $CURRENT_VERSION"
+          exit 1
           fi
           
           # Increment the second part (minor version)
