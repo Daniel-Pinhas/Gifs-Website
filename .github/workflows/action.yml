@@ -203,7 +203,7 @@ jobs:
           GCS_BUCKET="gifs-website-charts";
           LATEST_CHART=$(gsutil ls gs://${GCS_BUCKET} | grep -o 'gifs-website-[0-9.]*.tgz' | sort -V | tail -n 1);
           gsutil cp ${LATEST_CHART} .
-          tar xvzf gifs-website-${{ env.NEW_VERSION }}.tgz values.yml Chart.yaml templates/;
+          tar xvzf ${LATEST_CHART} values.yml Chart.yaml templates/;
           mkdir -p helm-chart;
           mv values.yml Chart.yaml templates/ helm-chart/;
 
