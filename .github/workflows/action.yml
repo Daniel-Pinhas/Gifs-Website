@@ -129,7 +129,7 @@ jobs:
    
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
-          helm upgrade --install gifs-website ${{ env.NEW_VERSION }};
+          helm upgrade --install gifs-website ${{ env.NEW_VERSION }} --namespace gifs-website;
         working-directory: charts-test
 
       - name: Run Modified ConfigMap
