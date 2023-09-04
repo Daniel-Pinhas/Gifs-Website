@@ -1,44 +1,56 @@
 import os
 import yaml
+from google.cloud import storage
 
 # Define the path to your Chart.yaml file
 chart_yaml_path = "charts-test/Chart.yaml"
+
+# Initialize the Google Cloud Storage client
+client = storage.Client()
+
+# Define your GCS bucket and object prefix
+bucket_name = 'gifs-website-charts'
+object_prefix = 'charts/'
+
+# List objects in the bucket
+bucket = client.bucket(bucket_name)
+blobs = bucket.list_blobs(prefix=object_prefix)
+
+# Extract the version numbers from the object names
+versions = []
+for blob in blobs:
+    version_str = blob.name.replace(object_prefix, '').replace('.tgz', '')
+    versions.append(version_str)
+
+# Find the latest version
+latest_version = max(versions)
+
+# Split the latest version string into its components (major, minor, and patch)
+major, minor, patch = map(int, latest_version.split('.'))
+
+# Increment the patch version, and if it reaches 10, increment the minor
+# and reset patch to 0. If minor reaches 10, increment the major and reset minor to 0
+patch += 1
+if patch == 10:
+    minor += 1
+    patch = 0
+    if minor == 10:
+        major += 1
+        minor = 0
+
+# Update the version in the dictionary with the raised version
+raised_version = f"{major}.{minor}.{patch}"
 
 # Read the YAML file
 with open(chart_yaml_path, "r") as f:
     chart_yaml = yaml.safe_load(f)
 
-# Extract the "version" field
-if "version" in chart_yaml:
-    version = chart_yaml["version"]
-    # Split the version string into its components (major, minor, and patch)
-    major, minor, patch = map(int, version.split('.'))
-    
-    # Check if the minor is 9 and patch is 9
-    if minor == 9 and patch == 9:
-        # If both are 9, increment the major, reset minor and patch to 0
-        major += 1
-        minor = 0
-        patch = 0
-    # Check if the minor is 9 but patch is not 9
-    elif minor == 9:
-        # If minor is 9 but patch is not, increment the minor and reset patch to 0
-        minor += 1
-        patch = 0
-    else:
-        # Otherwise, increment the patch
-        patch += 1
+# Update the "version" field in the Chart.yaml with the raised version
+chart_yaml["version"] = raised_version
 
-    # Update the version in the dictionary
-    chart_yaml["version"] = f"{major}.{minor}.{patch}"
-    
-    # Write the updated YAML back to the file
-    with open(chart_yaml_path, "w") as f:
-        yaml.dump(chart_yaml, f, default_flow_style=False)
+# Write the updated YAML back to the file
+with open(chart_yaml_path, "w") as f:
+    yaml.dump(chart_yaml, f, default_flow_style=False)
 
-    # Print the updated version (without exporting)
-    updated_version = chart_yaml["version"]
-    print(f"Updated Version: {updated_version}")
-
-else:
-    print("Version field not found in Chart.yaml")
+# Print the updated version (without exporting)
+print(f"Updated Version: {raised_version}")
