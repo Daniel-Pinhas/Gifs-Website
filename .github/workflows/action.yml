@@ -211,8 +211,8 @@ jobs:
           lines_to_delete="user_name: user_pwd:"
           file_path="values.yml";
           file_content=$(<"$file_path");
-          new_content=$(echo "$file_content" | sed "/$lines_to_delete/d");
-          echo "$new_content" > "$file_path";
+          grep -Ev "$lines_to_delete" "$file_path" > "$file_path.temp";
+          mv "$file_path.temp" "$file_path";
           cat values.yml;
         working-directory: helm-chart 
           
