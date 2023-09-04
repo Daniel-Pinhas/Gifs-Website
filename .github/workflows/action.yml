@@ -208,7 +208,7 @@ jobs:
       
       - name: Modify Values
         run: >
-          python3 valuesDel.py
+          python3 valuesDel.py;
           cat helm-chart/values.yml;
           
       - name: Commit and push Helm chart to destination Git repository
