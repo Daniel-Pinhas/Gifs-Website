@@ -204,8 +204,8 @@ jobs:
           gsutil cp gs://gifs-website-charts/${LATEST_CHART} .;
           tar xvzf ${LATEST_CHART};
           mkdir helm-chart;
-          ls;
           mv gifs-website/values.yml gifs-website/Chart.yaml gifs-website/templates/ helm-chart/;
+          ls helm-chart;
           
       - name: Commit and push Helm chart to destination Git repository
         run: >
