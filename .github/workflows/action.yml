@@ -122,10 +122,14 @@ jobs:
         run: >
           gsutil cp gifs-website-${{ env.NEW_VERSION }}.tgz gs://gifs-website-charts;
         
-   
+      - name: Add Helm Repository
+        run: >
+          helm repo add gifs-website-charts gs://gifs-website-charts
+          helm repo update
+        
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
-          helm upgrade --install gifs-website ${{ env.NEW_VERSION }};
+          helm upgrade --install gifs-website gifs-website-charts/gifs-website-${{ env.NEW_VERSION }} -f values.yml
         working-directory: charts-test
 
       - name: Run Modified ConfigMap
