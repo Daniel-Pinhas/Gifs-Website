@@ -124,7 +124,7 @@ jobs:
         
       - name: Add Helm Repository
         run: >
-          helm repo add gifs-website-charts gs://gifs-website-charts
+          helm repo add gifs-website gs://gifs-website-charts
           helm repo update
         
       - name: Deploy/Upgrade to Testing Env GCP Cluster
