@@ -200,12 +200,11 @@ jobs:
 
       - name: Untar Latest Helm Version
         run: >
-          gsutil ls gs://gifs-website-charts;
-          LATEST_CHART=$(gsutil ls gs://gifs-website-charts | grep -o 'gifs-website-[0-9.]*.tgz' | sort -V | tail -n 1);
-          gsutil cp ${LATEST_CHART} .;
-          tar xvzf ${LATEST_CHART};
-          mkdir helm-chart;
-          mv values.yml Chart.yaml templates/ helm-chart/;
+          LATEST_CHART=$(gsutil ls gs://gifs-website-charts | grep -o 'gifs-website-[0-9.]*.tgz' | sort -V | tail -n 1)
+          gsutil cp gs://gifs-website-charts/${LATEST_CHART} .
+          tar xvzf ${LATEST_CHART}
+          mkdir helm-chart
+          mv values.yml Chart.yaml templates/ helm-chart/
           
       - name: Commit and push Helm chart to destination Git repository
         run: >
