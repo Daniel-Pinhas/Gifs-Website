@@ -200,7 +200,7 @@ jobs:
 
       - name: Untar Latest Helm Version
         run: >
-          gsutil ls gs://gifs-website-charts
+          gsutil ls gs://gifs-website-charts;
           LATEST_CHART=$(gsutil ls gs://gifs-website-charts | grep -o 'gifs-website-[0-9.]*.tgz' | sort -V | tail -n 1);
           gsutil cp ${LATEST_CHART} .;
           tar xvzf ${LATEST_CHART};
