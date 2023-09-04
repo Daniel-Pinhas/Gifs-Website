@@ -98,7 +98,11 @@ jobs:
           python3 changeTag.py danielpinhas/flask2-k8s;
           python3 changeTag.py danielpinhas/flask3-k8s;
         working-directory: charts-test
-        
+      
+      - name: Create Branch
+        run: >
+            git 
+
       - name: Read current Helm chart version
         run: >
           python3 helmVersion.py;
@@ -125,7 +129,7 @@ jobs:
    
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
-          helm upgrade --install gifs-website ${{ env.NEW_VERSION }} . -f values.yml;
+          helm upgrade --install gifs-website ${{ env.NEW_VERSION }};
         working-directory: charts-test
 
       - name: Run Modified ConfigMap
