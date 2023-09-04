@@ -121,8 +121,11 @@ jobs:
       - name: Push Helm chart to GCS bucket
         run: >
           gsutil cp gifs-website-${{ env.NEW_VERSION }}.tgz gs://gifs-website-charts;
-          helm repo add gifs-website-charts gs://gifs-website-charts;
-          helm repo update;
+        
+      - name: Add Helm Repository
+        run: >
+          helm repo add gifs-website-charts gs://gifs-website-charts
+          helm repo update
         
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
