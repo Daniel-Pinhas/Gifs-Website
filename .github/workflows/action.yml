@@ -208,13 +208,8 @@ jobs:
       
       - name: Modify Values
         run: >
-          lines_to_delete="user_name: user_pwd:"
-          file_path="values.yml";
-          file_content=$(<"$file_path");
-          grep -Ev "$lines_to_delete" "$file_path" > "$file_path.temp";
-          mv "$file_path.temp" "$file_path";
-          cat values.yml;
-        working-directory: helm-chart 
+          python3 valuesDel.py
+          cat helm-chart/values.yml;
           
       - name: Commit and push Helm chart to destination Git repository
         run: >
