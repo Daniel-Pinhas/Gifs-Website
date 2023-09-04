@@ -169,9 +169,7 @@ jobs:
         run: >
           kubectl delete deploy --all;
           kubectl delete svc --all;
-          echo Testing Test-Server Stage Completed;
-          exit 1;
-        
+          echo Testing Test-Server Stage Completed;   
        
   GKE-Setup-Production-Cluster:
     name: Setup the GKE-Prod-Cluster
@@ -193,33 +191,31 @@ jobs:
             cluster_name: "gifs-website-cluster-prod"
             location: "us-central1"
 
-      - name: Install Dependencies
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3.0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_CREDENTIAL }}
+          export_default_credentials: true
+
+      - name: Untar Latest Helm Version
         run: >
-          sudo apt install jq -y;
-          sudo pip3 install docker;
-        working-directory: charts-prod 
+          GCS_BUCKET="gifs-website-charts";
+          LATEST_CHART=$(gsutil ls gs://${GCS_BUCKET} | grep -o 'gifs-website-[0-9.]*.tgz' | sort -V | tail -n 1);
+          gsutil cp ${LATEST_CHART} .
+          tar xvzf gifs-website-${{ env.NEW_VERSION }}.tgz values.yml Chart.yaml templates/;
+          mkdir -p helm-chart;
+          mv values.yml Chart.yaml templates/ helm-chart/;
 
-      - name: Set environment variables
-        run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
-
-      - name: Run Python script
-        run: python3 rds.py;
-        working-directory: charts-prod
-
-      - name: Run changeValues.sh
+      - name: Commit and push Helm chart to destination Git repository
         run: >
-          chmod +x changeTag.py;
-          python3 changeTag.py danielpinhas/flask-k8s; 
-          python3 changeTag.py danielpinhas/flask2-k8s;
-          python3 changeTag.py danielpinhas/flask3-k8s;
-        working-directory: charts-prod
-      
-      - name: Package Helm chart
-        run: helm package charts-prod --app-version gifs-website-prod --destination .;
-      
-      - name: Deploy/Upgrade to Testing Env GCP Cluster
-        run: helm upgrade --install gifs-website-prod . -f values.yml;
-        working-directory: charts-prod
+          git config --global user.email "danielp1239@gmail.com"
+          git config --global user.name "Daniel-Pinhas"
+          git remote add destination-repo https://github.com/Daniel-Pinhas/Gifs-Website-CD.git
+          git checkout -b main
+          git add helm-chart/
+          git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}"
+          git push origin master
 
       - name: Run Modified ConfigMap
         run: >
