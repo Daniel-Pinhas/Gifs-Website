@@ -81,7 +81,8 @@ jobs:
         run: >
           sudo apt install jq -y;
           sudo pip3 install docker;
-          sudo pip3 install PyYAML
+          sudo pip3 install PyYAML;
+          pip3 install google-cloud-storage;
         working-directory: charts-test
           
       - name:  Set environment variables
