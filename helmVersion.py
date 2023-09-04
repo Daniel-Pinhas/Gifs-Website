@@ -41,7 +41,7 @@ if "version" in chart_yaml:
     print(f"Updated Version: {updated_version}")
 
     # Export the updated version as an environment variable
-    os.environ["Updated-Version"] = f"{updated_version}"
+    os.system(f'echo "export Updated-Version={updated_version}" >> $GITHUB_ENV')
 
 else:
     print("Version field not found in Chart.yaml")

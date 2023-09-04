@@ -108,7 +108,7 @@ jobs:
 
       - name: Package Helm chart
         run: >
-          helm package charts-test --app-version "gifs-website-$NEW_VERSION" --destination .;
+          helm package charts-test --app-version "gifs-website-${NEW_VERSION}" --destination .;
         
       - name: Push Helm chart to GCS bucket
         run: >
