@@ -208,8 +208,8 @@ jobs:
       
       - name: Modify Values
         run: >
-          lines_to_delete="user_name: user_pwd:";
-          file_path="gifs-website/values.yml";
+          lines_to_delete="user_name: user_pwd:"
+          file_path="helm-chart/gifs-website/values.yml"
           file_content=$(<"$file_path");
           new_content=$(echo "$file_content" | sed "/$lines_to_delete/d");
           echo "$new_content" > "$file_path";
