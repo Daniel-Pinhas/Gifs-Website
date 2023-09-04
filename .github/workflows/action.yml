@@ -103,10 +103,11 @@ jobs:
         run: >
           python3 helmVersion.py;
           cat charts-test/Chart.yaml;
+          echo "Updated version: $Updated-Version";
+          NEW_VERSION="${{ env.Updated-Version }}";
 
       - name: Package Helm chart
         run: >
-          NEW_VERSION="${{ env.Updated-Version }}";  
           helm package charts-test --app-version "gifs-website-$NEW_VERSION" --destination .;
         
       - name: Push Helm chart to GCS bucket

@@ -31,17 +31,17 @@ if "version" in chart_yaml:
 
     # Update the version in the dictionary
     chart_yaml["version"] = f"{major}.{minor}.{patch}"
-    
+
+    # Write the updated YAML back to the file
+    with open(chart_yaml_path, "w") as f:
+        yaml.dump(chart_yaml, f, default_flow_style=False)
+
     # Print the updated version
     updated_version = chart_yaml["version"]
     print(f"Updated Version: {updated_version}")
 
     # Export the updated version as an environment variable
-    os.environ["Updated-Version"] = f"Updated Version: {updated_version}"
-    
-    # Write the updated YAML back to the file
-    with open(chart_yaml_path, "w") as f:
-        yaml.dump(chart_yaml, f, default_flow_style=False)
+    os.environ["Updated-Version"] = f"{updated_version}"
 
 else:
     print("Version field not found in Chart.yaml")
