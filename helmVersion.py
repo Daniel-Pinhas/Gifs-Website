@@ -2,7 +2,7 @@ import os
 import yaml
 
 # Define the path to your Chart.yaml file
-chart_yaml_path = "Chart.yaml"
+chart_yaml_path = "charts-test/Chart.yaml"
 
 # Read the YAML file
 with open(chart_yaml_path, "r") as f:
