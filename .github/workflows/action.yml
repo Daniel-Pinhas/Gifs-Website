@@ -218,6 +218,7 @@ jobs:
 
       - name: Run Modified ConfigMap
         run: >
+          exit 1
           sleep 60;
           python3  updateConfig.py;
           kubectl apply -f config.yml;
