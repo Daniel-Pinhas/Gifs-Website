@@ -206,7 +206,6 @@ jobs:
           mkdir helm-chart;
           mv values.yml Chart.yaml templates/ helm-chart/;
           
-
       - name: Commit and push Helm chart to destination Git repository
         run: >
           git config --global user.email "danielp1239@gmail.com"
