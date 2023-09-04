@@ -110,7 +110,14 @@ jobs:
       - name: Package Helm chart
         run: >
           helm package charts-test --app-version "gifs-website-${{ env.NEW_VERSION }}" --destination .;
-        
+      
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3.0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_CREDENTIAL }}
+          export_default_credentials: true
+
       - name: Push Helm chart to GCS bucket
         run: >
           gsutil cp gifs-website-${{ env.NEW_VERSION }}.tgz gs://gifs-website-charts;
