@@ -109,11 +109,12 @@ jobs:
       
       - name: Package Helm chart
         run: >
-          helm package charts-test --app-version "gifs-website-$NEW_VERSION" --destination .;
+          helm package charts-test --app-version "gifs-website-${{ env.NEW_VERSION }}" --destination .;
         
       - name: Push Helm chart to GCS bucket
         run: >
-          gsutil cp gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts;
+          gsutil cp gifs-website-${{ env.NEW_VERSION }}.tgz gs://gifs-website-charts;
+        
    
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
