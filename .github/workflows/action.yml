@@ -210,13 +210,22 @@ jobs:
         run: >
           python3 valuesDel.py;
           cat helm-chart/values.yml;
-          
-      - name: Commit and push Helm chart to destination Git repository
+      
+      - name: Configure Git
         run: >
           git config --global user.email "danielp1239@gmail.com"
           git config --global user.name "Daniel-Pinhas"
+
+      - name: Add Remote Repository
+        run: >
           git remote add destination-repo https://github.com/Daniel-Pinhas/Gifs-Website-CD.git
-          git checkout -b main
+
+      - name: Switch to Main Branch
+        run: >
+          git checkout -B main
+
+      - name: Add Commit & Push
+        run: >
           git add helm-chart/*
           git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}"
           git push origin master
