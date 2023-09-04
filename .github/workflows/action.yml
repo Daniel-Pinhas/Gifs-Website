@@ -81,6 +81,7 @@ jobs:
         run: >
           sudo apt install jq -y;
           sudo pip3 install docker;
+          sudo pip3 install PyYAML
         working-directory: charts-test
           
       - name:  Set environment variables
@@ -101,7 +102,7 @@ jobs:
       - name: Read current Helm chart version
         run: >
           python3 helmVersion.py;
-        continue-on-error: true 
+          cat charts-test/Chart.yaml;
 
       - name: Package Helm chart
         run: >
@@ -111,8 +112,7 @@ jobs:
       - name: Push Helm chart to GCS bucket
         run: >
           yq eval ".version = \"$NEW_VERSION\"" -i charts-test/Chart.yaml;
-          cat charts-test/Chart.yaml;
-          gsutil cp -r charts-test gs://gifs-website-charts/gifs-website-${NEW_VERSION}.tgz;
+          gsutil cp gifs-website-${NEW_VERSION}.tgz gs://gifs-website-charts;
    
       - name: Deploy/Upgrade to Testing Env GCP Cluster
         run: >
