@@ -202,9 +202,10 @@ jobs:
         run: >
           LATEST_CHART=$(gsutil ls gs://gifs-website-charts | grep -o 'gifs-website-[0-9.]*.tgz' | sort -V | tail -n 1);
           gsutil cp ${LATEST_CHART} .;
-          tar xvzf ${LATEST_CHART} values.yml Chart.yaml templates/;
-          mkdir -p helm-chart;
+          tar xvzf ${LATEST_CHART};
+          mkdir helm-chart;
           mv values.yml Chart.yaml templates/ helm-chart/;
+          
 
       - name: Commit and push Helm chart to destination Git repository
         run: >
@@ -212,7 +213,7 @@ jobs:
           git config --global user.name "Daniel-Pinhas"
           git remote add destination-repo https://github.com/Daniel-Pinhas/Gifs-Website-CD.git
           git checkout -b main
-          git add helm-chart/
+          git add helm-chart/*
           git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}"
           git push origin master
 
