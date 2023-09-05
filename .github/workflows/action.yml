@@ -233,12 +233,17 @@ jobs:
           git push origin main;
         working-directory: Gifs-Website-CD
 
+      - name: Apply Gifs-Website App
+        run: >
+          kubectl apply -f argocd/application.yml
+        working-directory: Gifs-Website-CD
+
       - name: Run Modified ConfigMap
         run: >
           sleep 80;
           python3  updateConfig.py;
           mv config.yml config.yaml;
-          mv -f config.yaml ../Gifs-Website-CD/Chart/templates/
+          mv -f config.yaml ../Gifs-Website-CD/Chart/templates/;
         working-directory: k8s-prod
 
       - name: Add Commit & Push
@@ -248,7 +253,7 @@ jobs:
           git commit -m "Update config.yaml";
           git push origin main;
         working-directory: Gifs-Website-CD/Chart/
-
+       
   Test-Production-Server:
     name: Testing Prod-Server
     needs: [GKE-Setup-Production-Cluster]
