@@ -210,18 +210,15 @@ jobs:
           mkdir helm-chart;
           mv gifs-website/values.yml gifs-website/Chart.yaml gifs-website/templates/ helm-chart/;
           mv helm-chart/values.yml helm-chart/values.yaml;
-      
       - name: Modify Values
         run: >
-          python3 valuesDel.py;
-      
-      - name: Configure Git
-        run: >
-          git config --global user.email "danielp1239@gmail.com"
-          git config --global user.name "Daniel-Pinhas"
-      
-      - name: Configure Git
-        run: > 
+          python3 valuesDel.py; 
+
+      - uses: actions/checkout@master
+      - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+      - run: >
           git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
           mv helm-chart/* Gifs-Website-CD;
 
