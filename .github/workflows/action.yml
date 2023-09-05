@@ -194,6 +194,13 @@ jobs:
       - name: Install Dependencies
         run: >
           sudo apt install git -y;
+      
+      - uses: actions/checkout@master
+      - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+      - run: >
+          git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v0.3.0
@@ -214,18 +221,7 @@ jobs:
       - name: Modify Values
         run: >
           python3 valuesDel.py; 
-
-      - uses: actions/checkout@master
-      - uses: fregante/setup-git-token@v1
-        with:
-          token: ${{ secrets.TOKEN_GITHUB }}
-      - run: >
-          git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
-
-      - name: Moving New Chart Files
-        run: >
-          ls;
-          mv values.yaml Chart.yaml templates/ ../Gifs-Website-CD/Chart/;
+          mv helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/Chart/;
 
       - name: Add Commit & Push
         run: >
