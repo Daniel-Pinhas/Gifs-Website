@@ -227,9 +227,10 @@ jobs:
 
       - name: Add Commit & Push
         run: >
+          git checkout -B main
           git add .;
           git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}";
-          git push origin master;
+          git push origin main;
         working-directory: Gifs-Website-CD
 
       - name: Run Modified ConfigMap
