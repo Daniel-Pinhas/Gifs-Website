@@ -14,6 +14,7 @@ env:
 jobs:
   Versioning-Images:
     name: Versioning Application Images
+    needs: [GKE-Setup-Production-Cluster]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -174,7 +175,6 @@ jobs:
        
   GKE-Setup-Production-Cluster:
     name: Setup the GKE-Prod-Cluster
-    needs: [Test-Testing-Cluster]
     runs-on: ubuntu-latest
     env:
       GKE_CLUSTER: "gifs-website-cluster-prod"
@@ -250,6 +250,7 @@ jobs:
           git add .;
           git commit -m "Update config.yaml";
           git push origin main;
+          exit 1;
         working-directory: Gifs-Website-CD/Chart/
        
   Test-Production-Server:
