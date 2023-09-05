@@ -221,7 +221,7 @@ jobs:
       - name: Modify Values
         run: >
           python3 valuesDel.py; 
-          mv helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/Chart/;
+          mv -f helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/Chart/;
 
       - name: Add Commit & Push
         run: >
