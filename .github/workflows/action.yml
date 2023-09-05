@@ -130,7 +130,7 @@ jobs:
 
       - name: Run Modified ConfigMap
         run: >
-          sleep 60;
+          sleep 80;
           python3  updateConfig.py;
           kubectl apply -f config.yml;
         working-directory: k8s-test
