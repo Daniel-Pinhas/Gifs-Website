@@ -1,7 +1,7 @@
 import subprocess
 
 # Get the Ingress IPs
-ingress_ips = subprocess.check_output(["kubectl", "describe", "service"]).decode("utf-8")
+ingress_ips = subprocess.check_output(["kubectl", "describe", "service", "-n", "gifs-website"]).decode("utf-8")
 ingress_ips = [line.split()[2] for line in ingress_ips.splitlines() if "LoadBalancer Ingress:" in line]
 
 placeholder_1 = "__FLASK_IP_PLACEHOLDER_1__"
