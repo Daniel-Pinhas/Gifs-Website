@@ -1,6 +1,6 @@
 import os
 
-file_path = "helm-chart/values.yml"
+file_path = "helm-chart/values.yaml"
 lines_to_delete = ["user_name:", "user_pwd:"]
 
 # Check if the file exists
