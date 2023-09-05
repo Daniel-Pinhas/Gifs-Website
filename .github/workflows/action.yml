@@ -209,6 +209,7 @@ jobs:
           tar xvzf ${LATEST_CHART};
           mkdir helm-chart;
           mv gifs-website/values.yml gifs-website/Chart.yaml gifs-website/templates/ helm-chart/;
+          mv helm-chart/values.yml helm-chart/values.yaml;
       
       - name: Modify Values
         run: >
@@ -221,9 +222,9 @@ jobs:
 
       - name: Add Commit & Push
         run: >
-          git add helm-chart/*
-          git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}"
-          git push origin master
+          git add .;
+          git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}";
+          git push origin master;
         working-directory: Gifs-Website-CD
 
       - name: Run Modified ConfigMap
