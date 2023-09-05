@@ -70,7 +70,7 @@ jobs:
       - name: Setup GCloud CLI
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: ${{ secrets.GCP_CREDENTIAL }}
+          credentials_json: ${{ secrets.GCP_CREDENTIAL_2 }}
       - name: Retrieve cluster info for use with kubectl
         uses: google-github-actions/get-gke-credentials@v1
         with:

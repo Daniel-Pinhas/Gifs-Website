@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = "/Users/daniel/Documents/DevOps/tkn/lofty-dynamics-393510-2b63cc077c5f.json"
+  credentials = "/Users/daniel/Documents/DevOps/tkn/peak-surface-398109-9f94be26244e.json"
   project     = "peak-surface-398109"
 }
 
