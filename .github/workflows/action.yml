@@ -235,7 +235,7 @@ jobs:
 
       - name: Run Modified ConfigMap
         run: >
-          sleep 60;
+          sleep 80;
           python3  updateConfig.py;
           mv config.yml config.yaml;
           mv -f config.yaml ../Gifs-Website-CD/Chart/templates/
