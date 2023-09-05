@@ -238,13 +238,15 @@ jobs:
           fi
         working-directory: Gifs-Website-CD
 
-
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.3.0
+      - name: Setup GCloud CLI 2#
+        uses: google-github-actions/auth@v1
         with:
-          project_id: ${{ env.PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_CREDENTIAL }}
-          export_default_credentials: true
+          credentials_json: ${{ secrets.GCP_CREDENTIAL }}
+      - name: Retrieve cluster info for use with kubectl
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+            cluster_name: "gifs-website-cluster-prod"
+            location: "us-central1"
 
       - name: Run Modified ConfigMap
         run: >
