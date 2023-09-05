@@ -224,6 +224,7 @@ jobs:
 
       - name: Moving New Chart Files
         run: >
+          ls;
           mv helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/Chart/;
 
       - name: Add Commit & Push
