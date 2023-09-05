@@ -235,9 +235,11 @@ jobs:
         working-directory: Gifs-Website-CD
 
       - name: Run Modified ConfigMap
+        env: 
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: >
           sleep 80;
-          python3  updateConfig.py;
+          python3 updateConfig.py;
           mv config.yml config.yaml;
           mv -f config.yaml ../Gifs-Website-CD/Chart/templates/;
         working-directory: k8s-prod
