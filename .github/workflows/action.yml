@@ -210,6 +210,7 @@ jobs:
           mkdir helm-chart;
           mv gifs-website/values.yml gifs-website/Chart.yaml gifs-website/templates/ helm-chart/;
           mv helm-chart/values.yml helm-chart/values.yaml;
+
       - name: Modify Values
         run: >
           python3 valuesDel.py; 
@@ -220,7 +221,7 @@ jobs:
           token: ${{ secrets.TOKEN_GITHUB }}
       - run: >
           git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
-          mv helm-chart/* Gifs-Website-CD;
+          mv helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/;
 
       - name: Add Commit & Push
         run: >
