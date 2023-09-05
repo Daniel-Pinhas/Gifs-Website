@@ -1,12 +1,12 @@
 provider "google" {
   credentials = "/Users/daniel/Documents/DevOps/tkn/lofty-dynamics-393510-2b63cc077c5f.json"
-  project     = "lofty-dynamics-393510"
+  project     = "peak-surface-398109"
 }
 
 variable "project_id" {
   description = "GCP Project ID"
   type        = string
-  default     = "lofty-dynamics-393510"
+  default     = "peak-surface-398109"
 }
 
 variable "zone" {
@@ -19,8 +19,8 @@ resource "google_container_cluster" "gifs-website-cluster-test" {
   name               = "gifs-website-cluster-test"
   location           = var.zone
   initial_node_count = 1 
-  network            = "projects/lofty-dynamics-393510/global/networks/gifs-website-test"
-  subnetwork         = "projects/lofty-dynamics-393510/regions/europe-west1/subnetworks/gifs-website-test"
+  network            = "projects/peak-surface-398109/global/networks/gifs-website-test"
+  subnetwork         = "projects/peak-surface-398109/regions/europe-west1/subnetworks/gifs-website-test"
 }
 
 resource "google_container_node_pool" "test_node_pool" {
