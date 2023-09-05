@@ -227,7 +227,7 @@ jobs:
 
       - name: Add Commit & Push
         run: >
-          git checkout -B main
+          git checkout -B main;
           git add .;
           git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}";
           git push origin main;
