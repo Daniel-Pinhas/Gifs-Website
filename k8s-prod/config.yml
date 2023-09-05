@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prod-html-configmap
+  namespace: gifs-website
 data:
   index.html: |
     <html>
