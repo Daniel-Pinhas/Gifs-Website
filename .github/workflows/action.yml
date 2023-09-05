@@ -238,9 +238,15 @@ jobs:
           fi
         working-directory: Gifs-Website-CD
 
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3.0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_CREDENTIAL }}
+          export_default_credentials: true
+
       - name: Run Modified ConfigMap
-        env: 
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: >
           sleep 80;
           python3 updateConfig.py;
