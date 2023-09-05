@@ -221,7 +221,7 @@ jobs:
           token: ${{ secrets.TOKEN_GITHUB }}
       - run: >
           git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
-          mv helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/;
+          mv helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/Chart/;
 
       - name: Add Commit & Push
         run: >
