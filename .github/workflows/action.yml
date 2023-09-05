@@ -9,6 +9,7 @@ on:
 env:
   GKE_REGION: 'europe-west1'
   PROJECT_ID: 'lofty-dynamics-393510'
+  PROJECT_ID_2: 'peak-surface-398109'
 
 jobs:
   Versioning-Images:
@@ -100,6 +101,13 @@ jobs:
           python3 changeTag.py danielpinhas/flask3-k8s;
         working-directory: charts-test
 
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3.0
+        with: 
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_CREDENTIAL }}
+          export_default_credentials: true
+
       - name: Read current Helm chart version
         run: >
           python3 helmVersion.py;
@@ -111,13 +119,6 @@ jobs:
       - name: Package Helm chart
         run: >
           helm package charts-test --app-version "gifs-website-${{ env.NEW_VERSION }}" --destination .;
-      
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.3.0
-        with: 
-          project_id: ${{ env.PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_CREDENTIAL }}
-          export_default_credentials: true
 
       - name: Push Helm chart to GCS bucket
         run: >
@@ -207,7 +208,7 @@ jobs:
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v0.3.0
         with:
-          project_id: ${{ env.PROJECT_ID }}
+          project_id: ${{ env.PROJECT_ID_2 }}
           service_account_key: ${{ secrets.GCP_CREDENTIAL }}
           export_default_credentials: true
 
