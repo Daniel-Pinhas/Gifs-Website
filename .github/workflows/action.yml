@@ -200,9 +200,9 @@ jobs:
         with:
           token: ${{ secrets.TOKEN_GITHUB }}
       - run: >
-          git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
           git config --global user.email "danielp1239@gmail.com";
           git config --global user.name "Daniel-Pinhas";
+          git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v0.3.0
