@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get the Ingress IPs
-ingress_ips=($(kubectl describe service | grep Ingress | awk '{print $3}'))
+ingress_ips=($(kubectl describe service -n gifs-website | grep Ingress | awk '{print $3}'))
 
 # Define the Flask application URLs with placeholders
 IPflask1='http://FLASK_IP_PLACEHOLDER_1'
