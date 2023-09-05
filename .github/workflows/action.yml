@@ -229,9 +229,13 @@ jobs:
       - name: Add Commit & Push
         run: >
           git checkout -B main;
-          git add .;
-          git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}";
-          git push origin main;
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit."
+          else
+            git add .;
+            git commit -m "Update Helm chart to version ${{ env.NEW_VERSION }}";
+            git push origin main;
+          fi
         working-directory: Gifs-Website-CD
 
       - name: Run Modified ConfigMap
@@ -247,9 +251,13 @@ jobs:
       - name: Add Commit & Push
         run: >
           git checkout -B main;
-          git add .;
-          git commit -m "Update config.yaml";
-          git push origin main;
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit."
+          else
+            git add .;
+            git commit -m "Update config.yaml";
+            git push origin main || exit 1;
+          fi
           exit 1;
         working-directory: Gifs-Website-CD/Chart/
        
