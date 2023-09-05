@@ -217,11 +217,14 @@ jobs:
           mkdir helm-chart;
           mv gifs-website/values.yml gifs-website/Chart.yaml gifs-website/templates/ helm-chart/;
           mv helm-chart/values.yml helm-chart/values.yaml;
+          mv helm-chart/templates/deployment-test.yml helm-chart/templates/deploy.yaml;
+          mv helm-chart/templates/service-test.yml helm-chart/templates/service.yaml;
 
       - name: Modify Values
         run: >
           python3 valuesDel.py; 
-          mv -f helm-chart/values.yaml helm-chart/Chart.yaml helm-chart/templates/ Gifs-Website-CD/Chart/;
+          mv -f helm-chart/values.yaml helm-chart/Chart.yaml Gifs-Website-CD/Chart/;
+          mv -f helm-chart/templates/deploy.yaml helm-chart/templates/service.yaml Gifs-Website-CD/Chart/templates/
 
       - name: Add Commit & Push
         run: >
