@@ -13,7 +13,6 @@ env:
 jobs:
   Versioning-Images:
     name: Versioning Application Images
-    needs: [GKE-Setup-Production-Cluster]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -174,6 +173,7 @@ jobs:
        
   GKE-Setup-Production-Cluster:
     name: Setup the GKE-Prod-Cluster
+    needs: [Test-Testing-Cluster]
     runs-on: ubuntu-latest
     env:
       GKE_CLUSTER: "gifs-website-cluster-prod"
@@ -235,11 +235,19 @@ jobs:
 
       - name: Run Modified ConfigMap
         run: >
-          exit 1
           sleep 60;
           python3  updateConfig.py;
-          kubectl apply -f config.yml;
+          mv config.yml config.yaml;
+          mv -f config.yaml ../Gifs-Website-CD/Chart/templates/
         working-directory: k8s-prod
+
+      - name: Add Commit & Push
+        run: >
+          git checkout -B main;
+          git add .;
+          git commit -m "Update config.yaml";
+          git push origin main;
+        working-directory: Gifs-Website-CD/Chart/
 
   Test-Production-Server:
     name: Testing Prod-Server
