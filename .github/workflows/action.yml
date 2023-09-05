@@ -216,6 +216,11 @@ jobs:
           python3 valuesDel.py;
       
       - name: Configure Git
+        run: >
+          git config --global user.email "danielp1239@gmail.com"
+          git config --global user.name "Daniel-Pinhas"
+      
+      - name: Configure Git
         run: > 
           git clone https://github.com/Daniel-Pinhas/Gifs-Website-CD.git;
           mv helm-chart/* Gifs-Website-CD;
