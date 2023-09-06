@@ -1,8 +1,8 @@
-Terraform-Clusters/test/.terraform.lock.hcl
+Terraform-Clusters/test/.terraform.tfstate.lock.info
 Terraform-Clusters/test/terraform.tfstate.backup
 Terraform-Clusters/test/terraform.tfstate
 Terraform-Clusters/test/.terraform
 Terraform-Clusters/prod/.terraform
-Terraform-Clusters/prod/.terraform.lock.hcl
+Terraform-Clusters/prod/.terraform.tfstate.lock.info
 Terraform-Clusters/prod/terraform.tfstate
 Terraform-Clusters/prod/terraform.tfstate.backup
