@@ -16,6 +16,15 @@ jobs:
     name: Versioning Application Images
     runs-on: ubuntu-latest
     steps:
+
+      - uses: actions/checkout@master
+      - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+      - run: >
+          git config --global user.email "danielp1239@gmail.com";
+          git config --global user.name "Daniel-Pinhas";
+
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Login to Dockerhub
