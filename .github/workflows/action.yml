@@ -29,22 +29,22 @@ jobs:
 
       - name: Git Diff for Flask-Project
         id: git-diff-flask-project
-        run: >
+        run: |
           if [[ -n $(git diff --name-only ${{ github.sha }} App/Flask-Project) ]]; then
             echo "Changes detected in App/Flask-Project, continuing with workflow..."
           else
             echo "No changes detected in App/Flask-Project, skipping subsequent steps..."
-            echo "::set-output name=skip_steps::true"
+            exit 78
           fi
 
       - name: Run Python script for Flask-Project
-        if: steps.git-diff-flask-project.outputs.skip_steps != 'true'
+        if: success() && steps.git-diff-flask-project.outputs.skip_steps != 'true'
         run: python3 rds.py;
         working-directory: App/Flask-Project
 
       - name: Build and Push Flask-1 Image for Flask-Project
-        if: steps.git-diff-flask-project.outputs.skip_steps != 'true'
-        run: >
+        if: success() && steps.git-diff-flask-project.outputs.skip_steps != 'true'
+        run: |
           pip3 install docker;
           python3 manageVersion.py;
           echo 'Build and Push Flask-1 Image Stage Completed for Flask-Project'
