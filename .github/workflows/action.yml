@@ -27,35 +27,71 @@ jobs:
       - name: Set environment variables
         run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
 
-      - name: Run Python script
+      - name: Git Diff for Flask-Project
+        id: git-diff-flask-project
+        run: >
+          if [[ -n $(git diff --name-only ${{ github.sha }} App/Flask-Project) ]]; then
+            echo "Changes detected in App/Flask-Project, continuing with workflow..."
+          else
+            echo "No changes detected in App/Flask-Project, skipping subsequent steps..."
+            echo "::set-output name=skip_steps::true"
+          fi
+
+      - name: Run Python script for Flask-Project
+        if: steps.git-diff-flask-project.outputs.skip_steps != 'true'
         run: python3 rds.py;
         working-directory: App/Flask-Project
 
-      - name: Build and Push Flask-1 Image   
+      - name: Build and Push Flask-1 Image for Flask-Project
+        if: steps.git-diff-flask-project.outputs.skip_steps != 'true'
         run: >
           pip3 install docker;
           python3 manageVersion.py;
-          echo 'Build and Push Flask-1 Image Stage Completed'
+          echo 'Build and Push Flask-1 Image Stage Completed for Flask-Project'
         working-directory: App/Flask-Project
 
-      - name: Run Python script
+      - name: Git Diff for Flask-Project2
+        id: git-diff-flask-project2
+        run: >
+          if [[ -n $(git diff --name-only ${{ github.sha }} App/Flask-Project2) ]]; then
+            echo "Changes detected in App/Flask-Project2, continuing with workflow..."
+          else
+            echo "No changes detected in App/Flask-Project2, skipping subsequent steps..."
+            echo "::set-output name=skip_steps::true"
+          fi
+
+      - name: Run Python script for Flask-Project2
+        if: steps.git-diff-flask-project2.outputs.skip_steps != 'true'
         run: python3 rds.py;
         working-directory: App/Flask-Project2
 
-      - name: Build and Push Flask-2 Image
+      - name: Build and Push Flask-2 Image for Flask-Project2
+        if: steps.git-diff-flask-project2.outputs.skip_steps != 'true'
         run: >
           python3 manageVersion.py;
-          echo 'Build and Push Flask-2 Image Stage Completed'
+          echo 'Build and Push Flask-2 Image Stage Completed for Flask-Project2'
         working-directory: App/Flask-Project2
 
-      - name: Run Python script
+      - name: Git Diff for Flask-Project3
+        id: git-diff-flask-project3
+        run: >
+          if [[ -n $(git diff --name-only ${{ github.sha }} App/Flask-Project3) ]]; then
+            echo "Changes detected in App/Flask-Project3, continuing with workflow..."
+          else
+            echo "No changes detected in App/Flask-Project3, skipping subsequent steps..."
+            echo "::set-output name=skip_steps::true"
+          fi
+
+      - name: Run Python script for Flask-Project3
+        if: steps.git-diff-flask-project3.outputs.skip_steps != 'true'
         run: python3 rds.py;
         working-directory: App/Flask-Project3
 
-      - name: Build and Push Flask-3 Image
+      - name: Build and Push Flask-3 Image for Flask-Project3
+        if: steps.git-diff-flask-project3.outputs.skip_steps != 'true'
         run: >
           python3 manageVersion.py;
-          echo 'Build and Push Flask-3 Image Stage Completed'
+          echo 'Build and Push Flask-3 Image Stage Completed for Flask-Project3'
         working-directory: App/Flask-Project3
 
   GKE-Setup-Testing-Cluster:
