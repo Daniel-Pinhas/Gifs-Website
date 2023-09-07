@@ -24,7 +24,7 @@ def get_random_url() -> str:
             return random.choice(urls)[0]
     except mysql.connector.Error as error:
         print("Error connecting to MySQL database:", error)
-    return None
+    return None 
 
 @app.route("/")
 def index():
