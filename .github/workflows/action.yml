@@ -27,13 +27,13 @@ jobs:
       - name: Set environment variables
         run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
 
+      
       - name: Git Diff for Flask-Project
         id: git-diff-flask-project
         run: >
-          if [[ -n $(git diff --name-only ${{ github.sha }} App/Flask-Project) ]]; then
-            echo "Changes detected in App/Flask-Project, continuing with workflow..."
-          else
-            echo "No changes detected in App/Flask-Project, skipping subsequent steps..."
+          git checkout -B main
+          if git diff-index --quiet HEAD -- App/Flask-Project; then
+            echo "No changes in the App/Flask-Project directory."
             echo "::set-output name=skip_steps::true"
           fi
 
@@ -53,10 +53,9 @@ jobs:
       - name: Git Diff for Flask-Project2
         id: git-diff-flask-project2
         run: >
-          if [[ -n $(git diff --name-only ${{ github.sha }} App/Flask-Project2) ]]; then
-            echo "Changes detected in App/Flask-Project2, continuing with workflow..."
-          else
-            echo "No changes detected in App/Flask-Project2, skipping subsequent steps..."
+          git checkout -B main
+          if git diff-index --quiet HEAD -- App/Flask-Project2; then
+            echo "No changes in the App/Flask-Project2 directory."
             echo "::set-output name=skip_steps::true"
           fi
 
@@ -75,10 +74,9 @@ jobs:
       - name: Git Diff for Flask-Project3
         id: git-diff-flask-project3
         run: >
-          if [[ -n $(git diff --name-only ${{ github.sha }} App/Flask-Project3) ]]; then
-            echo "Changes detected in App/Flask-Project3, continuing with workflow..."
-          else
-            echo "No changes detected in App/Flask-Project3, skipping subsequent steps..."
+          git checkout -B main
+          if git diff-index --quiet HEAD -- App/Flask-Project3; then
+            echo "No changes in the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::true"
           fi
 
