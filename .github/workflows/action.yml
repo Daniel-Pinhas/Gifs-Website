@@ -42,8 +42,9 @@ jobs:
         id: git-diff-flask-project
         run: >
           git checkout -B main;
-          git log --oneline -n 10;
-          if git --exit-code HEAD -- 'App/Flask-Project/**/*'; then
+          if git diff HEAD -- 'App/Flask-Project/**/*' | grep -q .; then
+            echo "Changes detected in the App/Flask-Project directory."
+          else
             echo "No changes in the App/Flask-Project directory."
             echo "::set-output name=skip_steps::true"
           fi
