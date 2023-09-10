@@ -64,9 +64,11 @@ jobs:
       - name: Git Diff for Flask-Project2
         id: git-diff-flask-project2
         run: >
-          git checkout -B main;
-          if git diff-index --quiet HEAD -- 'App/Flask-Project2/**/*'; then
-            echo "No changes in the App/Flask-Project2 directory."
+          if git log -n1 -- App/Flask-Project2/ | grep -q .; then
+            echo "Commits detected in the App/Flask-Project2 directory."
+            echo "::set-output name=skip_steps::false"
+          else
+            echo "No commits in the App/Flask-Project2 directory."
             echo "::set-output name=skip_steps::true"
           fi
 
@@ -85,9 +87,11 @@ jobs:
       - name: Git Diff for Flask-Project3
         id: git-diff-flask-project3
         run: >
-          git checkout -B main;
-          if git diff-index --quiet HEAD -- 'App/Flask-Project3/**/*'; then
-            echo "No changes in the App/Flask-Project3 directory."
+          if git log -n1 -- App/Flask-Project3/ | grep -q .; then
+            echo "Commits detected in the App/Flask-Project3 directory."
+            echo "::set-output name=skip_steps::false"
+          else
+            echo "No commits in the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::true"
           fi
 
