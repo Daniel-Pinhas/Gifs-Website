@@ -40,8 +40,8 @@ jobs:
   
       - name: Git Diff for Flask-Project
         id: git-diff-flask-project
-        run: >
-          if [[ -n $(git diff HEAD App/Flask-Project/) ]]; then
+        run: |
+          if [[ -n $(git diff HEAD App/Flask-Project/**/*) ]]; then
             echo "Changes detected in the App/Flask-Project directory."
             echo "::set-output name=skip_steps::false"
           else
@@ -64,7 +64,7 @@ jobs:
       - name: Git Diff for Flask-Project2
         id: git-diff-flask-project2
         run: >
-          if [[ -n $(git diff HEAD App/Flask-Project2/) ]]; then
+          if [[ -n $(git diff HEAD App/Flask-Project2/**/*) ]]; then
             echo "Changes detected in the App/Flask-Project2 directory."
             echo "::set-output name=skip_steps::false"
           else
@@ -87,7 +87,7 @@ jobs:
       - name: Git Diff for Flask-Project3
         id: git-diff-flask-project3
         run: >
-          if [[ -n $(git diff HEAD App/Flask-Project3/) ]]; then
+          if [[ -n $(git diff HEAD App/Flask-Project3/**/*) ]]; then
             echo "Changes detected in the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::false"
           else
