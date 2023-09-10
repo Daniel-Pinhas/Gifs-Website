@@ -46,7 +46,8 @@ jobs:
             echo "Changes detected in the App/Flask-Project directory."
           else
             echo "No changes in the App/Flask-Project directory."
-            echo "::set-output name=skip_steps::true"
+            echo "Listing files in the directory for debugging:"
+            ls -la App/Flask-Project
           fi
 
       - name: Run Python script for Flask-Project
