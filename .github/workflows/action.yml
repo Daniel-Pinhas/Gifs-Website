@@ -83,7 +83,7 @@ jobs:
       - name: Git Diff for Flask-Project3
         id: git-diff-flask-project3
         run: >
-          git checkout -B main && \
+          git checkout -B main;
           if git diff-index --quiet HEAD -- App/Flask-Project3; then
             echo "No changes in the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::true"
