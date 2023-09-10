@@ -34,13 +34,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
       - name: Set environment variables
-        run: echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV
-
-      
+        run: >
+          pip3 install docker;
+          echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV;
+  
       - name: Git Diff for Flask-Project
         id: git-diff-flask-project
         run: >
-          git checkout -B main
+          git checkout -B main && \
           if git diff-index --quiet HEAD -- App/Flask-Project; then
             echo "No changes in the App/Flask-Project directory."
             echo "::set-output name=skip_steps::true"
@@ -54,7 +55,6 @@ jobs:
       - name: Build and Push Flask-1 Image for Flask-Project
         if: steps.git-diff-flask-project.outputs.skip_steps != 'true'
         run: >
-          pip3 install docker;
           python3 manageVersion.py;
           echo 'Build and Push Flask-1 Image Stage Completed for Flask-Project'
         working-directory: App/Flask-Project
@@ -62,7 +62,7 @@ jobs:
       - name: Git Diff for Flask-Project2
         id: git-diff-flask-project2
         run: >
-          git checkout -B main
+          git checkout -B main && \
           if git diff-index --quiet HEAD -- App/Flask-Project2; then
             echo "No changes in the App/Flask-Project2 directory."
             echo "::set-output name=skip_steps::true"
@@ -83,7 +83,7 @@ jobs:
       - name: Git Diff for Flask-Project3
         id: git-diff-flask-project3
         run: >
-          git checkout -B main
+          git checkout -B main && \
           if git diff-index --quiet HEAD -- App/Flask-Project3; then
             echo "No changes in the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::true"
