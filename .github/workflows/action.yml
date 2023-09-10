@@ -48,6 +48,7 @@ jobs:
           echo "No commits in the App/Flask-Project directory."
           echo "::set-output name=skip_steps::true"
           fi
+        shell: bash
 
       - name: Run Python script for Flask-Project
         if: steps.git-diff-flask-project.outputs.skip_steps != 'true'
