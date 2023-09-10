@@ -41,6 +41,7 @@ jobs:
       - name: Git Diff for Flask-Project
         id: git-diff-flask-project
         run: >
+          git log -n1 -- App/Flask-Project/;
           if git log -n1 -- App/Flask-Project/ | grep -q .; then
             echo "Commits detected in the App/Flask-Project directory."
             echo "::set-output name=skip_steps::false"
