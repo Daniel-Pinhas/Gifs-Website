@@ -23,7 +23,7 @@ def get_random_url() -> str:
         if urls:
             return random.choice(urls)[0]
     except mysql.connector.Error as error:
-        print("Error connecting to MySQL database   :", error)
+        print("Error connecting to MySQL database:", error)
     return None 
 
 @app.route("/")
