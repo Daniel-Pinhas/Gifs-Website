@@ -40,7 +40,7 @@ jobs:
       
       - name: Capture Changed Files
         run: >
-          changed_files=$(git diff --name-only HEAD^..HEAD);
+          changed_files=$(git show --stat HEAD);
           echo "CHANGED_FILES=$changed_files" >> $GITHUB_ENV;
 
       - name: Check Changes in Flask-Project Dir
