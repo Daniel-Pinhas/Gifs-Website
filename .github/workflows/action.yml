@@ -41,20 +41,15 @@ jobs:
       - name: Git Diff for Flask-Project
         id: git-diff-flask-project
         run: >
-          latest_commit_time=$(git log -n 1 --format=%at)
-      
-          current_time=$(date +%s)
-          
-          time_diff=$((current_time - latest_commit_time))
-          
-          if [ $time_diff -lt 300 ]; then
-            echo "Latest commit in the App/Flask-Project directory is within the last 5 minutes."
+          changed_files=$(git show --stat HEAD --name-only)
+
+          if echo "$changed_files" | grep -q "^App/Flask-Project/"; then
+            echo "Changes detected in files within the App/Flask-Project directory."
             echo "::set-output name=skip_steps::false"
           else
-            echo "No recent commits in the App/Flask-Project directory."
+            echo "No changes in files within the App/Flask-Project directory."
             echo "::set-output name=skip_steps::true"
           fi
-        working-directory: App/Flask-Project
 
       - name: Run Python script for Flask-Project
         if: steps.git-diff-flask-project.outputs.skip_steps != 'true'
@@ -71,20 +66,15 @@ jobs:
       - name: Git Diff for Flask-Project2
         id: git-diff-flask-project2
         run: >
-          latest_commit_time=$(git log -n 1 --format=%at)
-        
-          current_time=$(date +%s)
+          changed_files=$(git show --stat HEAD --name-only)
           
-          time_diff=$((current_time - latest_commit_time))
-          
-          if [ $time_diff -lt 300 ]; then
-            echo "Latest commit in the App/Flask-Project directory is within the last 5 minutes."
+          if echo "$changed_files" | grep -q "^App/Flask-Project2/"; then
+            echo "Changes detected in files within the App/Flask-Project2 directory."
             echo "::set-output name=skip_steps::false"
           else
-            echo "No recent commits in the App/Flask-Project directory."
+            echo "No changes in files within the App/Flask-Project2 directory."
             echo "::set-output name=skip_steps::true"
           fi
-        working-directory: App/Flask-Project2
 
       - name: Run Python script for Flask-Project2
         if: steps.git-diff-flask-project2.outputs.skip_steps != 'true'
@@ -101,20 +91,15 @@ jobs:
       - name: Git Diff for Flask-Project3
         id: git-diff-flask-project3
         run: >
-          latest_commit_time=$(git log -n 1 --format=%at)
-          
-          current_time=$(date +%s)
-          
-          time_diff=$((current_time - latest_commit_time))
-          
-          if [ $time_diff -lt 300 ]; then
-            echo "Latest commit in the App/Flask-Project directory is within the last 5 minutes."
+          changed_files=$(git show --stat HEAD --name-only)
+            
+          if echo "$changed_files" | grep -q "^App/Flask-Project3/"; then
+            echo "Changes detected in files within the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::false"
           else
-            echo "No recent commits in the App/Flask-Project directory."
+            echo "No changes in files within the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::true"
           fi
-        working-directory: App/Flask-Project3
 
       - name: Run Python script for Flask-Project3
         if: steps.git-diff-flask-project3.outputs.skip_steps != 'true'
