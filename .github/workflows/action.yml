@@ -40,7 +40,7 @@ jobs:
       
       - name: Capture Changed Files
         run: >
-          git show --stat HEAD --name-only | tr '\n' ' ' > changed_files.txt;
+          git show --stat HEAD > changed_files.txt;
           echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV;
 
       - name: Check Changes in Flask-Project Dir
@@ -192,7 +192,7 @@ jobs:
         
   Test-Testing-Cluster:
     name: Testing-Cluster
-    needs: [GKE-Setup-Testing-Cluster]  
+    needs: [GKE-Setup-Testing-Cluster]
     runs-on: ubuntu-latest
     env:
       GKE_CLUSTER: "gifs-website-cluster-test"
