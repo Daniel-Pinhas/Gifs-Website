@@ -39,7 +39,6 @@ jobs:
           echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV;
       
       - name: Capture Changed Files
-        id: capture-changed-files
         run: >
           changed_files=$(git diff --name-only HEAD^..HEAD);
           echo "CHANGED_FILES=$changed_files" >> $GITHUB_ENV;
