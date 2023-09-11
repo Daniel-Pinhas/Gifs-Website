@@ -37,13 +37,17 @@ jobs:
         run: >
           pip3 install docker;
           echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV;
-  
+      
+      - name: Capture Changed Files
+        id: capture-changed-files
+        run: >
+          changed_files=$(git show --stat HEAD --name-only);
+          echo "CHANGED_FILES=$changed_files" >> $GITHUB_ENV;
+
       - name: Check Changes in Flask-Project Dir
         id: git-diff-flask-project
         run: >
-          changed_files=$(git show --stat HEAD --name-only)
-
-          if echo "$changed_files" | grep -q "^App/Flask-Project/"; then
+          if echo "$CHANGED_FILES" | grep -q "^App/Flask-Project/"; then
             echo "Changes detected in files within the App/Flask-Project directory."
             echo "::set-output name=skip_steps::false"
           else
@@ -66,9 +70,7 @@ jobs:
       - name: Check Changes in Flask-Project2 Dir
         id: git-diff-flask-project2
         run: >
-          changed_files=$(git show --stat HEAD --name-only)
-          
-          if echo "$changed_files" | grep -q "^App/Flask-Project2/"; then
+          if echo "$CHANGED_FILES" | grep -q "^App/Flask-Project2/"; then
             echo "Changes detected in files within the App/Flask-Project2 directory."
             echo "::set-output name=skip_steps::false"
           else
@@ -91,10 +93,7 @@ jobs:
       - name: Check Changes in Flask-Project3 Dir
         id: git-diff-flask-project3
         run: >
-          git show --stat HEAD --name-only;
-          changed_files=$(git show --stat HEAD --name-only)
-            
-          if echo "$changed_files" | grep -q "^App/Flask-Project3/"; then
+          if echo "$CHANGED_FILES" | grep -q "^App/Flask-Project3/"; then
             echo "Changes detected in files within the App/Flask-Project3 directory."
             echo "::set-output name=skip_steps::false"
           else
