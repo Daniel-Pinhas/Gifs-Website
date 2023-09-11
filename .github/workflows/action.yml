@@ -38,7 +38,7 @@ jobs:
           pip3 install docker;
           echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV;
   
-      - name: Git Diff for Flask-Project
+      - name: Check Changes in Flask-Project Dir
         id: git-diff-flask-project
         run: >
           changed_files=$(git show --stat HEAD --name-only)
@@ -63,7 +63,7 @@ jobs:
           echo 'Build and Push Flask-1 Image Stage Completed for Flask-Project'
         working-directory: App/Flask-Project
 
-      - name: Git Diff for Flask-Project2
+      - name: Check Changes in Flask-Project2 Dir
         id: git-diff-flask-project2
         run: >
           changed_files=$(git show --stat HEAD --name-only)
@@ -88,9 +88,10 @@ jobs:
           echo 'Build and Push Flask-2 Image Stage Completed for Flask-Project2'
         working-directory: App/Flask-Project2
 
-      - name: Git Diff for Flask-Project3
+      - name: Check Changes in Flask-Project3 Dir
         id: git-diff-flask-project3
         run: >
+          git show --stat HEAD --name-only;
           changed_files=$(git show --stat HEAD --name-only)
             
           if echo "$changed_files" | grep -q "^App/Flask-Project3/"; then
