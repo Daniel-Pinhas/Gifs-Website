@@ -49,7 +49,7 @@ jobs:
       - name: Set environment variables
         run: >
           pip3 install docker;
-          echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV;
+          echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV; 
 
       - name: Check Changes in Flask-Project Dir
         id: git-diff-flask-project
