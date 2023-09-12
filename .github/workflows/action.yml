@@ -36,7 +36,7 @@ jobs:
       - name: Set environment variables
         run: >
           pip3 install docker;
-          pip3 install git;
+          pip3 install gitpython;
           echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV; 
       
       - uses: actions/checkout@master
