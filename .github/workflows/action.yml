@@ -33,6 +33,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
+      - uses: actions/checkout@master
+      - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+      - run: >
+          git config --global user.email "danielp1239@gmail.com";
+          git config --global user.name "Daniel-Pinhas";
+          
       - name: Set environment variables
         run: >
           pip3 install docker;
