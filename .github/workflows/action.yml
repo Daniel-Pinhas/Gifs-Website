@@ -40,7 +40,6 @@ jobs:
       - run: >
           git config --global user.email "danielp1239@gmail.com";
           git config --global user.name "Daniel-Pinhas";
-          git diff-tree --no-commit-id --name-only -r HEAD;
 
       - name: Set environment variables
         run: >
@@ -49,6 +48,7 @@ jobs:
       
       - name: Capture Changed Files
         run: >
+          git log -n 1 -- App/Flask-Project/;
           changed_files=$(git diff-tree --no-commit-id --name-only -r HEAD);
           echo "CHANGED_FILES=$changed_files" >> $GITHUB_ENV;
 
