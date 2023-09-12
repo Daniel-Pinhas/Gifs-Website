@@ -44,7 +44,6 @@ jobs:
       - name: Debug Information
         run: >
           git diff-tree --no-commit-id --name-only -r HEAD;
-          git show --oneline --name-only --pretty='' HEAD;
 
       - name: Set environment variables
         run: >
