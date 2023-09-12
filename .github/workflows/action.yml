@@ -43,28 +43,24 @@ jobs:
 
       - name: Debug Information
         run: >
-          pwd;
-          git log --oneline -n 1 | awk '{print $1}'
+          prev_commit=$(git log --oneline -n 1 | awk '{print $1}');
+          git diff --name-only $prev_commit HEAD -- App/Flask-Project/
 
       - name: Set environment variables
         run: >
           pip3 install docker;
           echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV;
-      
-      - name: Capture Changed Files
-        run: >
-          changed_files=$(git diff-tree --no-commit-id --name-only -r HEAD);
-          echo "CHANGED_FILES=$changed_files" >> $GITHUB_ENV;
 
       - name: Check Changes in Flask-Project Dir
         id: git-diff-flask-project
         run: >
-          if echo "$CHANGED_FILES" | grep -q "^App/Flask-Project/"; then
-            echo "Changes detected in files within the App/Flask-Project directory."
-            echo "::set-output name=skip_steps::false"
-          else
+          prev_commit=$(git log --oneline -n 1 | awk '{print $1}');
+          if git diff --quiet $prev_commit HEAD -- App/Flask-Project/; then
             echo "No changes in files within the App/Flask-Project directory."
             echo "::set-output name=skip_steps::true"
+          else
+            echo "Changes detected in files within the App/Flask-Project directory."
+            echo "::set-output name=skip_steps::false"
           fi
 
       - name: Run Python script for Flask-Project
