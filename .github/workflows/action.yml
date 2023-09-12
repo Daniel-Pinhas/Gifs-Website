@@ -43,6 +43,7 @@ jobs:
 
       - name: Debug Information
         run: >
+          git diff --name-only HEAD~1 HEAD;
           git show --oneline --name-only --pretty='' HEAD;
 
       - name: Set environment variables
