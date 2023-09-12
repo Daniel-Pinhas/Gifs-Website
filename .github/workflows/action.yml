@@ -33,6 +33,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
+      - name: Set environment variables
+        run: >
+          pip3 install docker;
+          pip3 install git;
+          echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV; 
+      
       - uses: actions/checkout@master
       - uses: fregante/setup-git-token@v1
         with:
@@ -41,11 +47,6 @@ jobs:
           git config --global user.email "danielp1239@gmail.com";
           git config --global user.name "Daniel-Pinhas";
           python App/check_changes.py;
-
-      - name: Set environment variables
-        run: >
-          pip3 install docker;
-          echo "RDS_CREDS=${{ secrets.RDS_CREDS }}" >> $GITHUB_ENV; 
 
       - name: Check Changes in Flask-Project Dir
         id: git-diff-flask-project
