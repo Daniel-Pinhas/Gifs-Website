@@ -44,7 +44,7 @@ jobs:
       - name: Debug Information
         run: >
           pwd;
-          git diff --name-only HEAD~1 HEAD;
+          git log --oneline -n 1 | awk '{print $1}'
 
       - name: Set environment variables
         run: >
